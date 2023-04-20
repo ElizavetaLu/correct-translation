@@ -8,9 +8,11 @@ const RootLayout = () => {
     const dispatch = useAppDispatch();
     const navigation = useNavigate();
 
+    const isAuth = localStorage.getItem("token");
+
     return (
         <div>
-            <header className="py-4 px-8 flex justify-end">
+            {isAuth && <header className="py-4 px-8 flex justify-end">
                 <button
                     className="flex items-center gap-2 capitalize text-[rgb(128,131,140)] transition-all duration-200 hover:text-[#6a75ca]"
                     onClick={() => {
@@ -21,7 +23,7 @@ const RootLayout = () => {
                     log out
                     <AiOutlineLogout />
                 </button>
-            </header>
+            </header>}
             <Outlet />
         </div>
     );

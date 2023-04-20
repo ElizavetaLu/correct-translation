@@ -2,7 +2,7 @@ import { SyntheticEvent, useEffect, useState } from "react";
 import InputWithLabel from "../components/inputWithLabel/InputWithLabel";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
-import { userLoggedIn } from "../features/slices/authSlice";
+import { setErrorMessage, userLoggedIn } from "../features/slices/authSlice";
 import { useLoginMutation } from "../features/api/apiSlice";
 
 const LogIn = () => {
@@ -14,22 +14,23 @@ const LogIn = () => {
     const [password, setPassword] = useState<string>('');
 
 
-    const [login, { data, isSuccess, isError, error }] = useLoginMutation()
+    const [login, { data, isSuccess }] = useLoginMutation();
 
     const submit = async (e: SyntheticEvent) => {
         e.preventDefault()
-        if (email && password) {
-            await login({ email, password })
 
+        if (email.trim() && password.trim()) {
+            await login({ email, password })
         } else {
-            console.log('pipka')
+            dispatch(setErrorMessage('Enter both: login and password'))
         }
     }
 
     useEffect(() => {
         if (isSuccess) {
-            dispatch(userLoggedIn(data.token))
-            navigate('/')
+            dispatch(userLoggedIn(data.token));
+            navigate('/');
+            window.location.reload();
         }
     }, [isSuccess])
 
