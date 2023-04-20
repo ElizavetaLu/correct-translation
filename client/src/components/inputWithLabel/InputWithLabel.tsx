@@ -6,7 +6,7 @@ const InputWithLabel = ({ type, name, label, value, onChange }: InputProps) => {
         <div className='flex flex-col w-full'>
             <label className="font-medium" htmlFor={name}>{label}</label>
             <input
-                className='rounded-xl mt-2 py-3 px-2.5 box-border shadow-sm outline-none'
+                className='rounded-xl mt-2 py-3 px-2.5 box-border shadow-sm outline-none border border-transparent focus:border-[rgba(106,117,202,.55)]'
                 type={type}
                 name={name}
                 value={value}
@@ -16,4 +16,4 @@ const InputWithLabel = ({ type, name, label, value, onChange }: InputProps) => {
     )
 }
 
-export default InputWithLabel 
+export default InputWithLabel

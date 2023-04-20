@@ -3,10 +3,12 @@ import { RootState } from '../../app/store';
 
 interface authState {
     token: string | null
+    errorMessage: string
 };
 
 const initialState: authState = {
-    token: null
+    token: null,
+    errorMessage: ''
 };
 
 const authSlice = createSlice({
@@ -21,10 +23,13 @@ const authSlice = createSlice({
             localStorage.removeItem("token");
             state.token = null;
             window.location.reload();
+        },
+        setErrorMessage(state, action) {
+            state.errorMessage = action.payload;
         }
     }
 })
 
 export const selectAuth = (state: RootState) => state.auth;
-export const { userLoggedIn, userLoggedOut } = authSlice.actions;
+export const { userLoggedIn, userLoggedOut, setErrorMessage } = authSlice.actions;
 export default authSlice.reducer;
