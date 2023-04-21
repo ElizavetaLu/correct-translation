@@ -23,7 +23,7 @@ const TbodyTr = (props: SentencesData) => {
     const onSave = () => {
         dispatch(setFixedSentence({ ...props, targetText: value }))
         setIsDisabled(!isDisabled);
-    } 
+    }
 
     return (
         <tr>
@@ -35,8 +35,7 @@ const TbodyTr = (props: SentencesData) => {
                     disabled={isDisabled}
                     value={value}
                     onChange={e => setValue(e.target.value)}
-
-                ></textarea>
+                />
 
             </td>
 
@@ -46,19 +45,17 @@ const TbodyTr = (props: SentencesData) => {
                         className="flex items-center gap-2 text-gray-700 hover:text-violet transition-all duration-200"
                         onClick={onEditSentence}
                     >
-                        <span className="text-sm">Edit</span>
+                        <span className="text-sm text-gray-700">Edit</span>
 
                         <RiPencilFill />
                     </div>
-                    : <div className="flex flex-col items-end" >
+                    : <div className="flex flex-col items-end gap-2" >
 
-                        <span onClick={() => setIsDisabled(!isDisabled)}>
-                            <IoClose />
-                        </span>
+                        <span onClick={() => setIsDisabled(!isDisabled)}> <IoClose /> </span>
 
                         <button
                             onClick={onSave}
-                            className="hover:text-violet transition-all duration-200"
+                            className="text-sm text-gray-700 hover:text-violet transition-all duration-200"
                         >save</button>
                     </div>
                 }

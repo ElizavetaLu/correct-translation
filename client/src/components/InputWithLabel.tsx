@@ -1,4 +1,4 @@
-import { InputProps } from "../../intefaces/intefaces";
+import { InputProps } from "../intefaces/intefaces";
 
 const InputWithLabel = ({ type, name, label, value, onChange }: InputProps) => {
 

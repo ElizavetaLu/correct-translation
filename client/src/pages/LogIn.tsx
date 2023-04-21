@@ -1,9 +1,10 @@
 import { SyntheticEvent, useEffect, useState } from "react";
-import InputWithLabel from "../components/inputWithLabel/InputWithLabel";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../app/hooks";
 import { setErrorMessage, userLoggedIn } from "../features/slices/authSlice";
 import { useLoginMutation } from "../features/api/apiSlice";
+import { useAppDispatch } from "../app/hooks";
+import InputWithLabel from "../components/InputWithLabel";
+
 
 const LogIn = () => {
 
@@ -28,7 +29,9 @@ const LogIn = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            dispatch(userLoggedIn({ token: data.token, cb: ()=>navigate('/') }));
+            dispatch(userLoggedIn({ token: data.token, cb: () => navigate('/') }));
+        } else {
+            dispatch(setErrorMessage('Invalid login credentials'))
         }
     }, [isSuccess])
 
@@ -55,9 +58,8 @@ const LogIn = () => {
                         value={password}
                         onChange={setPassword}
                     />
-
                     <button
-                        className='mt-20 bg-violet text-white capitalize rounded-md py-2 px-10 text-lg'
+                        className='mt-20 primary-button'
                         type='submit'
                     >log in</button>
                 </form>
