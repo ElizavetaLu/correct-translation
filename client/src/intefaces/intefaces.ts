@@ -14,3 +14,7 @@ export interface SentencesData {
     targetLang: string,
     targetText: string
 };
+
+export interface InfoBlockProps {
+    message: string
+}

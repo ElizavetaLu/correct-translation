@@ -2,9 +2,9 @@
     {
         "_id": 1,
         "sourceLang": "en",
-        "sourceText": "Yeah, when you fell off the ladder, you tore the ligament that connects the two.",
+        "sourceText": "When you fell off the ladder, you tore the ligament that connects the two.",
         "targetLang": "uk",
-        "targetText": "Kогда вы упали с лестницы, вы разорвали соединяющее их сухожилие."
+        "targetText": "Когда вы упали с лестницы, вы разорвали соединяющее их сухожилие."
     },
     {
         "_id": 2,

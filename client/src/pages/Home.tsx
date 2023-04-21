@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { useGetSentencesQuery, useSetFixedSentencesMutation } from "../features/api/apiSlice";
 import { setSentences } from "../features/slices/sentencesSlice";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import TbodyTr from "../components/table/TbodyTr";
 import SkeletonLoading from "../components/SkeletonLoading";
+import TbodyTr from "../components/table/TbodyTr";
 
 
 const isAuth = localStorage.getItem("token");
@@ -12,33 +12,30 @@ const isAuth = localStorage.getItem("token");
 const Home = () => {
 
     const dispatch = useAppDispatch();
-    const state = useAppSelector(state => state.sentences);
 
-
-    const { data, isLoading, isSuccess } = useGetSentencesQuery('');
-
-    useEffect(() => {
-        console.log("isSuccess ", isSuccess);
-
-        if (!isLoading) dispatch(setSentences(data))
-
-    }, [isLoading])
-
-    const [setFixedSentences] = useSetFixedSentencesMutation();
-
-    const saveAllChanges = async (e: SyntheticEvent) => {
-        await setFixedSentences(state.fixedData);
-    }
-
+    const { data, fixedData } = useAppSelector(state => state.sentences);
 
     //get source and target land code 
-    const { sourceLang, targetLang } = state.data
+    const { sourceLang, targetLang } = data
         ? {
-            sourceLang: state.data[0].sourceLang,
-            targetLang: state.data[0].targetLang
+            sourceLang: data[0].sourceLang,
+            targetLang: data[0].targetLang
         }
         : { sourceLang: '', targetLang: '' };
 
+
+
+    const { data: sentencesArr, isLoading } = useGetSentencesQuery('');
+
+    useEffect(() => {
+        if (!isLoading) dispatch(setSentences(sentencesArr));
+    }, [isLoading])
+
+
+    const [setFixedSentences] = useSetFixedSentencesMutation();
+    const saveAllChanges = async (e: SyntheticEvent) => {
+        await setFixedSentences(fixedData);
+    };
 
     return (
         <>
@@ -47,7 +44,7 @@ const Home = () => {
                 ? <div className='h-screen pt-16'>
                     <div className="flex flex-col items-center gap-10 max-w-6xl mx-auto px-4">
                         <button
-                            className="bg-violet text-white capitalize rounded-md py-2 px-10 text-lg"
+                            className="primary-button"
                             onClick={saveAllChanges}
                         >save all changes</button>
 
@@ -63,7 +60,7 @@ const Home = () => {
                                 {
                                     isLoading
                                         ? [...Array(5)].map((item, i) => <SkeletonLoading key={i} />)
-                                        : state.data?.map((item: any, i: number) => <TbodyTr key={item._id} {...item} />)
+                                        : data?.map((item: any, i: number) => <TbodyTr key={item._id} {...item} />)
                                 }
                             </tbody>
                         </table>
@@ -72,7 +69,7 @@ const Home = () => {
                 :
                 <center className="mt-9" >
                     <Link
-                        className="bg-violet text-white capitalize rounded-md py-2 px-10 text-lg"
+                        className="primary-button"
                         to='/login'
                     > log in </Link>
                 </center>
