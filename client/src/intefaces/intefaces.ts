@@ -8,9 +8,9 @@ export interface InputProps {
 
 
 export interface SentencesData {
-    _id: number
-    sourceLang: string
-    sourceText: string
-    targetLang: string
+    _id: number,
+    sourceLang: string,
+    sourceText: string,
+    targetLang: string,
     targetText: string
 };

@@ -28,15 +28,13 @@ const LogIn = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            dispatch(userLoggedIn(data.token));
-            navigate('/');
-            window.location.reload();
+            dispatch(userLoggedIn({ token: data.token, cb: ()=>navigate('/') }));
         }
     }, [isSuccess])
 
 
     return (
-        <div className='h-screen flex items-center justify-center'>
+        <div className='h-screen flex items-center justify-center px-6'>
             <div className="max-w-xl w-full">
 
                 <h1 className='mb-20 text-6xl text-violet text-center font-bold capitalize'>Authentication</h1>

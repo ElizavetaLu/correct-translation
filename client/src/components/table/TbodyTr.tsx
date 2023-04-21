@@ -1,16 +1,16 @@
-import { useRef, useState } from "react";
-import { RiPencilFill } from "react-icons/ri";
-import { IoClose } from "react-icons/io5";
+import { useState } from "react";
+import { setFixedSentence } from "../../features/slices/sentencesSlice";
 import { SentencesData } from "../../intefaces/intefaces";
 import { useAppDispatch } from "../../app/hooks";
-import { setFixedSentence } from "../../features/slices/sentencesSlice";
+
+import { RiPencilFill } from "react-icons/ri";
+import { IoClose } from "react-icons/io5";
 
 
 const TbodyTr = (props: SentencesData) => {
 
 
     const dispatch = useAppDispatch();
-    // const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     const [value, setValue] = useState(props.targetText)
     const [isDisabled, setIsDisabled] = useState(true)
@@ -23,7 +23,7 @@ const TbodyTr = (props: SentencesData) => {
     const onSave = () => {
         dispatch(setFixedSentence({ ...props, targetText: value }))
         setIsDisabled(!isDisabled);
-    }
+    } 
 
     return (
         <tr>
@@ -31,8 +31,7 @@ const TbodyTr = (props: SentencesData) => {
             <td className="pl-6 py-4 text-sm text-gray-800 w-3/6">
 
                 <textarea
-                    className={`${isDisabled ? 'bg-transparent' : 'bg-white p-4 rounded'} w-full resize-none outline-none `}
-                    // ref={textareaRef}
+                    className={`${isDisabled ? 'bg-transparent' : 'bg-white p-4 rounded'} w-full resize-none outline-none font-poppins`}
                     disabled={isDisabled}
                     value={value}
                     onChange={e => setValue(e.target.value)}
