@@ -14,5 +14,5 @@ exports.default = (app) => {
     });
     app.post('/login', requireLogin, authentication_1.logIn);
     app.get('/sentences', sentences_1.getSentences);
-    app.post('/fix-data', sentences_1.setFixedSentences);
+    app.post('/fix-data', sentences_1.setFixedSentence);
 };

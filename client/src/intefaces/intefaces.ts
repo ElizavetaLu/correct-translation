@@ -6,7 +6,6 @@ export interface InputProps {
     onChange: Function
 }
 
-
 export interface SentencesData {
     _id: number,
     sourceLang: string,
@@ -14,7 +13,3 @@ export interface SentencesData {
     targetLang: string,
     targetText: string
 };
-
-export interface InfoBlockProps {
-    message: string
-}

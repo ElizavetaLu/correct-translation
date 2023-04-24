@@ -1,33 +1,27 @@
-import { useState } from "react";
-import { setFixedSentence } from "../../features/slices/sentencesSlice";
+import { SyntheticEvent, useState } from "react";
 import { SentencesData } from "../../intefaces/intefaces";
-import { useAppDispatch } from "../../app/hooks";
+import { useSetFixedSentenceMutation } from "../../features/api/apiSlice";
 
 import { RiPencilFill } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
 
 
-const TbodyTr = (props: SentencesData) => {
+const TbodyTr = ({ sourceLang, targetLang, sourceText, targetText }: SentencesData) => {
+
+    const [value, setValue] = useState(targetText);
+    const [isDisabled, setIsDisabled] = useState(true);
 
 
-    const dispatch = useAppDispatch();
+    const [setFixedSentence] = useSetFixedSentenceMutation();
 
-    const [value, setValue] = useState(props.targetText)
-    const [isDisabled, setIsDisabled] = useState(true)
-
-
-    const onEditSentence = () => {
+    const onSave = async (e: SyntheticEvent) => {
+        await setFixedSentence({ sourceLang, targetLang, sourceText, targetText: value });
         setIsDisabled(!isDisabled);
-    }
-
-    const onSave = () => {
-        dispatch(setFixedSentence({ ...props, targetText: value }))
-        setIsDisabled(!isDisabled);
-    }
+    };
 
     return (
         <tr>
-            <td className="pl-6 py-4 text-sm text-gray-800 w-3/6">{props.sourceText}</td>
+            <td className="pl-6 py-4 text-sm text-gray-800 w-3/6">{sourceText}</td>
             <td className="pl-6 py-4 text-sm text-gray-800 w-3/6">
 
                 <textarea
@@ -43,12 +37,13 @@ const TbodyTr = (props: SentencesData) => {
                 {isDisabled
                     ? <div
                         className="flex items-center gap-2 text-gray-700 hover:text-violet transition-all duration-200"
-                        onClick={onEditSentence}
+                        onClick={() => setIsDisabled(!isDisabled)}
                     >
                         <span className="text-sm text-gray-700">Edit</span>
 
                         <RiPencilFill />
                     </div>
+
                     : <div className="flex flex-col items-end gap-2" >
 
                         <span onClick={() => setIsDisabled(!isDisabled)}> <IoClose /> </span>

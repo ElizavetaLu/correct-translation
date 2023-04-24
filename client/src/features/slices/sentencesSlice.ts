@@ -4,12 +4,12 @@ import { SentencesData } from '../../intefaces/intefaces';
 
 interface sentencesState {
     data: SentencesData[] | null,
-    fixedData: SentencesData[],
+    currentTargetValue: string,
 };
 
 const initialState: sentencesState = {
     data: null,
-    fixedData: [],
+    currentTargetValue: ''
 };
 
 const sentencesSlice = createSlice({
@@ -18,20 +18,11 @@ const sentencesSlice = createSlice({
     reducers: {
         setSentences(state, action) {
             state.data = action.payload;
-        },
-        setFixedSentence(state, action) {
-            const exist = state.fixedData.findIndex(item => item._id === action.payload._id)
-
-            if (exist !== -1) {
-                state.fixedData[exist] = action.payload
-            } else {
-                state.fixedData.push(action.payload);
-            }
-        },
+        }
     }
 })
 
 export const selectSentences = (state: RootState) => state.sentences;
-export const { setSentences, setFixedSentence } = sentencesSlice.actions;
+export const { setSentences } = sentencesSlice.actions;
 
 export default sentencesSlice.reducer;
