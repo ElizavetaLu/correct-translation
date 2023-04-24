@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { logIn } from './controllers/authentication';
 import passport from './services/passport';
-import { getSentences, setFixedSentences } from './controllers/sentences';
+import { getSentences, setFixedSentence } from './controllers/sentences';
 
 const requireAuth = passport.authenticate('jwt', { session: false });
 const requireLogin = passport.authenticate('local', { session: false });
@@ -18,5 +18,5 @@ export default (app: any) => {
 
 
     app.get('/sentences', getSentences);
-    app.post('/fix-data', setFixedSentences);
+    app.post('/fix-data', setFixedSentence);
 }

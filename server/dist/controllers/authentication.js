@@ -12,12 +12,8 @@ function tokenForUser(user) {
 }
 const logIn = (req, res, next) => {
     const user = req.body;
-    if (!user) {
-        res.status(422).json({ error: 'No user provided.' });
-        return;
-    }
+    if (!user)
+        return res.status(422).json({ error: 'No user provided.' });
     res.status(200).json({ token: tokenForUser(user) });
 };
 exports.logIn = logIn;
-// const user = new User({ email: "", password: "" });
-// user.save();

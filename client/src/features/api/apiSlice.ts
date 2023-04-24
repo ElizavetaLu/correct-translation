@@ -29,7 +29,7 @@ export const sentencesApi = createApi({
         getSentences: builder.query({
             query: () => '/sentences',
         }),
-        setFixedSentences: builder.mutation({
+        setFixedSentence: builder.mutation({
             query: (body: any) => {
                 return {
                     url: '/fix-data',
@@ -42,5 +42,5 @@ export const sentencesApi = createApi({
 })
 
 export const { useLoginMutation } = authApi
-export const { useGetSentencesQuery, useSetFixedSentencesMutation } = sentencesApi
+export const { useGetSentencesQuery, useSetFixedSentenceMutation } = sentencesApi
 

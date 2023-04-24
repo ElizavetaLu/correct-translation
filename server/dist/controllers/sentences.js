@@ -1,24 +1,32 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setFixedSentences = exports.getSentences = void 0;
+exports.setFixedSentence = exports.getSentences = void 0;
+const uuid_1 = require("uuid");
 const fs = require('fs');
 const getSentences = (req, res, next) => {
-    fs.readFile(__dirname + '/../../src/data/sentences.json', 'utf8', (error, data) => {
+    fs.readFile(__dirname + '/../../src/data/sentences.json', 'utf8', (err, data) => {
+        if (err)
+            return res.json({ error: 'Error file read.' });
         res.send(data);
     });
 };
 exports.getSentences = getSentences;
-const setFixedSentences = (req, res, next) => {
+const setFixedSentence = (req, res, next) => {
     const data = req.body;
-    const jsonString = JSON.stringify(data);
-    fs.writeFile(__dirname + '/../../src/data/fixedSentences.json', jsonString, (err) => {
-        if (err) {
-            console.log('Error writing file', err);
-        }
-        else {
-            console.log('Successfully wrote file');
-            res.send({ saved: "test" });
-        }
+    if (!data)
+        return res.status(400).send({ error: 'No data was provided' });
+    const fixedSentence = { _id: (0, uuid_1.v4)(), ...data };
+    fs.readFile(__dirname + '/../../src/data/fixedSentences.json', 'utf8', (err, data) => {
+        if (err)
+            return res.json({ error: 'Error file read.' });
+        const sentencesArray = JSON.parse(data);
+        sentencesArray.push(fixedSentence);
+        const sentencesToString = JSON.stringify(sentencesArray);
+        fs.writeFile(__dirname + '/../../src/data/fixedSentences.json', sentencesToString, (err) => {
+            if (err)
+                return res.json({ error: 'Error writing file' });
+            res.status(200).send({ success: true });
+        });
     });
 };
-exports.setFixedSentences = setFixedSentences;
+exports.setFixedSentence = setFixedSentence;
