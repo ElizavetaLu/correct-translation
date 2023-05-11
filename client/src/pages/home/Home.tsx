@@ -1,18 +1,60 @@
-import { SyntheticEvent, useState } from "react";
+import { Dispatch, SyntheticEvent, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import { setCorrectedSentence } from "../../store/actions/actionCreators";
+import { ILanguage } from "../../intefaces/intefaces";
+import { languages } from "../../languages"
 
 import DropDownInput from "../../components/inputs/dropdown-input/DropDownInput";
-import Table from "./components/sentences-table/Table";
 import Input from "../../components/inputs/input/Input";
+import Table from "./components/table/Table";
 import "./Home.scss";
 
+
+
 const Home = () => {
+
+    const dispatch: Dispatch<any> = useDispatch();
 
     const onSearchSubmit = (e: SyntheticEvent) => {
         e.preventDefault()
     }
 
-    const [sourceLang, setSourceLang] = useState<string>('')
-    const [targetLang, setTargetLang] = useState<string>('')
+    const { sentences } = useSelector((state: any) => state.sentences);
+
+    const [newSourceLang, setNewSourceLang] = useState<ILanguage>(languages[0]);
+    const [newTargetLang, setNewTargetLang] = useState<ILanguage>(languages[0]);
+
+    //search language 'name' by it's code in languages and set it to dd-input value
+    useEffect(() => {
+        if (sentences) {
+            for (let i = 0; i < languages.length; i++) {
+                if (languages[i].code === sentences[0].sourceLang) setNewSourceLang(languages[i])
+                if (languages[i].code === sentences[0].targetLang) setNewTargetLang(languages[i])
+            }
+        }
+    }, [sentences])
+
+
+    // brand new author's sentences
+    const [authorSourceText, setAuthorSourceText] = useState<string>('')
+    const [authorTargetText, setAuthorTargetText] = useState<string>('')
+
+    const onAddNewSentences = () => {
+        if (!authorSourceText.trim() || !authorTargetText.trim()) return
+
+        const newSentences = {
+            sourceLang: newSourceLang.code,
+            sourceText: authorSourceText,
+            targetLang: newTargetLang.code,
+            targetText: authorTargetText
+        };
+
+        dispatch(setCorrectedSentence(newSentences, -1));
+
+        setAuthorSourceText('');
+        setAuthorTargetText('');
+    }
 
     return (
         <main className="main">
@@ -24,15 +66,15 @@ const Home = () => {
             </form>
 
             <div className="select-language">
-                <DropDownInput value={sourceLang} setValue={setSourceLang} />
+                <DropDownInput value={newSourceLang.name} setValue={setNewSourceLang} />
                 <img src="/images/icons/arrows.svg" alt="swap-arrows" className="select-language__button" />
-                <DropDownInput value={targetLang} setValue={setTargetLang} />
+                <DropDownInput value={newTargetLang.name} setValue={setNewTargetLang} />
             </div>
 
             <div className="add-sentence">
-                <Input />
-                <Input />
-                <div className="add-sentence__button-container">
+                <Input value={authorSourceText} setValue={setAuthorSourceText} />
+                <Input value={authorTargetText} setValue={setAuthorTargetText} />
+                <div className="add-sentence__button-container" onClick={onAddNewSentences}>
                     <img src="/images/icons/cancel.png" alt="add" className="add-sentence__button" />
                 </div>
             </div>

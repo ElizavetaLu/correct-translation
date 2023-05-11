@@ -1,5 +1,9 @@
 @import "../../../../../variables";
 
+.loading {
+    padding-left: 43.5%;
+}
+
 .table {
     display: flex;
     flex-direction: column;
@@ -47,6 +51,7 @@
             border: 2px solid #E1E3F7;
             font-family: 'Poppins';
             color: $main_dark-text-color;
+            outline: none;
         }
 
         &__select-lang {
@@ -60,7 +65,7 @@
             gap: 12px;
         }
 
-        &__button-container { 
+        &__button-container {
             background-color: $primary;
             border-radius: 100%;
             @include flex-center;

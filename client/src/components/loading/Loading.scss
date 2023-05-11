@@ -1,0 +1,23 @@
+@import "../../../variables";
+
+.spinner {
+    width: 40px;
+    padding: 6px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: $primary;
+    --_m:
+        conic-gradient(#0000 20%, #000),
+        linear-gradient(#000 0 0) content-box;
+    -webkit-mask: var(--_m);
+    mask: var(--_m);
+    -webkit-mask-composite: source-out;
+    mask-composite: subtract;
+    animation: spinner 1s infinite linear;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(1turn)
+    }
+}

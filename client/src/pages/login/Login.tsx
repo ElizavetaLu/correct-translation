@@ -1,10 +1,8 @@
-import { SyntheticEvent, useEffect, useState } from "react";
+import { Dispatch, FormEventHandler, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-import { setErrorMessage, userLoggedIn } from "../../features/slices/authSlice";
-import { useLoginMutation } from "../../features/api/apiSlice";
-
-import { useAppDispatch } from "../../app/hooks";
+import { login } from "../../store/actions/actionCreators";
 
 import InputWithLabel from "../../components/inputs/input-with-label/InputWithLabel";
 import LogoTitle from "../../components/logo-title/LogoTitle";
@@ -13,34 +11,24 @@ import "./Login.scss";
 
 const Login = () => {
 
-    const dispatch = useAppDispatch();
-    const navigate = useNavigate();
+    const dispatch: Dispatch<any> = useDispatch()
+    const navigate = useNavigate()
 
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const [errorMessage, setErrorMessage] = useState<string>('')
+
 
     const [isChecked, setIsChecked] = useState<boolean>(false);
 
 
-    const [login, { data, isSuccess }] = useLoginMutation();
+    const submit: FormEventHandler = e => {
+        e.preventDefault()
 
-    const submit = async (e: SyntheticEvent) => {
-        e.preventDefault();
+        if (!(email.trim || password.trim())) return setErrorMessage('Provide both: Email and Password')
 
-        if (email.trim() && password.trim()) {
-            await login({ email, password });
-        } else {
-            dispatch(setErrorMessage('Enter both: email and password'));
-        }
+        dispatch(login({ email, password }, () => navigate('/')))
     }
-
-    useEffect(() => {
-        if (isSuccess) {
-            dispatch(userLoggedIn({ token: data.token, cb: () => navigate('/') }));
-        } else {
-            dispatch(setErrorMessage('Invalid login credentials'));
-        }
-    }, [isSuccess])
 
 
     return (
