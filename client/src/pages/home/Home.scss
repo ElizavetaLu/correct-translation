@@ -66,6 +66,12 @@
         }
     }
 
+    .add-sentence,
+    .sentences {
+        display: flex;
+        gap: 50px;
+    }
+
     .add-sentence {
         margin: 24px 0 30px;
         @include flex-align-center;
@@ -89,11 +95,5 @@
             width: 15px;
             height: 15px;
         }
-    }
-
-    .add-sentence,
-    .sentences {
-        display: flex;
-        gap: 50px;
     }
 }

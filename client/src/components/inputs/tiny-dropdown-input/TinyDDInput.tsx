@@ -1,9 +1,16 @@
-import useToggle from "../../../hooks/useToggle"
-import { languages } from "../../../languages"
-import { useState } from "react"
-import "./TinyDDInput.scss"
+import { useState } from "react";
+import useToggle from "../../../hooks/useToggle";
+import { languages } from "../../../languages";
+import "./TinyDDInput.scss";
 
-const TinyDDInput = ({ lang }: { lang: string }) => {
+
+interface ITinyDDInput {
+    lang: string,
+    setLang: (val: string) => void
+}
+
+
+const TinyDDInput = ({ lang, setLang }: ITinyDDInput) => {
 
     const [isOpen, toggle] = useToggle();
     const [value, setValue] = useState<string>(lang);
@@ -20,11 +27,21 @@ const TinyDDInput = ({ lang }: { lang: string }) => {
 
 
             {isOpen && <ul className="tiny-dropdown__list">
-                {languages.map(items => <li
-                    key={items.code}
-                    className="tiny-dropdown__list-item"
-                    onClick={toggle}
-                >{items.code}</li>)}
+                {
+                    languages.map(items => (
+                        <li
+                            key={items.code}
+                            className="tiny-dropdown__list-item"
+                            onClick={() => {
+                                setValue(items.code);
+                                setLang(items.code);
+                                toggle();
+                            }}
+                        >
+                            {items.code}
+                        </li>)
+                    )
+                }
             </ul>}
         </div>
     )

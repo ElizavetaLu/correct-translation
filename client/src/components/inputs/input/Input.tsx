@@ -1,9 +1,11 @@
-import { useState } from "react";
 import "./Input.scss";
 
-const Input = () => {
+interface IInput {
+    value: string,
+    setValue: (val: string) => void
+}
 
-    const [value, setValue] = useState('')
+const Input = ({ value, setValue }: IInput) => {
 
     return <input
         value={value}

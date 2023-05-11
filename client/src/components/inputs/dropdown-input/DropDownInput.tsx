@@ -25,7 +25,10 @@ const DropDownInput = ({ value, setValue }: IDropDownInput) => {
                 {languages.map(item => <li
                     key={item.name}
                     className="dropdown-search__list-item"
-                    onClick={toggle}
+                    onClick={()=>{
+                        setValue(item.name);
+                        toggle();
+                    }}
                 >{item.name}</li>)}
             </ul>}
         </div>
