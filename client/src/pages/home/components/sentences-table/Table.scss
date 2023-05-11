@@ -1,0 +1,82 @@
+@import "../../../../../variables";
+
+.table {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+
+    .row {
+        @include flex-align-center;
+        gap: 50px;
+
+        &__item,
+        &__item-active {
+            width: 100%;
+            max-width: $area-width;
+        }
+
+        &__item,
+        &__textarea {
+            padding: 18px 48px 18px 14px;
+            border-radius: 17px;
+            box-shadow: 2px 2px 8px rgba(0, 7, 26, 0.04);
+            font-style: normal;
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 22px;
+        }
+
+        &__item {
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            background: rgba(255, 255, 255, 0.7);
+            color: #4E5157;
+        }
+
+        &__item-active {
+            position: relative;
+        }
+
+        &__textarea {
+            width: 100%;
+            resize: none;
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px solid #E1E3F7;
+            font-family: 'Poppins';
+            color: $main_dark-text-color;
+        }
+
+        &__select-lang {
+            position: absolute;
+            right: -29px;
+            top: 16%;
+        }
+
+        &__buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        &__button-container { 
+            background-color: $primary;
+            border-radius: 100%;
+            @include flex-center;
+            cursor: pointer;
+            transition: all .2s ease-in-out;
+            width: 36px;
+            height: 36px;
+
+            &:hover {
+                background-color: $primary-hover;
+            }
+        }
+
+        &__button {
+            width: 15px;
+            height: 15px;
+        }
+    }
+}

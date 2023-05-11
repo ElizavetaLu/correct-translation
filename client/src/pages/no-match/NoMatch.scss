@@ -1,0 +1,40 @@
+@import "../../../variables";
+
+.no-match {
+    @include flex-center;
+    flex-direction: column;
+    gap: 50px;
+
+    &__info {
+        @include flex-align-center;
+        flex-direction: column;
+    }
+
+    &__code {
+        color: $primary;
+        font-size: 20rem;
+        font-weight: 700;
+    }
+
+    &__text {
+        font-size: 30px;
+    }
+
+    &__link {
+        padding: 11px 56px;
+        background: $primary;
+        border-radius: 6px;
+        border: none;
+        color: #fff;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 36px;
+        transition: all .2s ease-in-out;
+        text-decoration: none;
+
+        &:hover {
+            background-color: $primary-hover;
+        }
+    }
+}
