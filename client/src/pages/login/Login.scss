@@ -1,0 +1,104 @@
+@import "../../../variables";
+
+.login {
+    height: 100vh;
+    width: 100%;
+    max-width: 540px;
+    margin: auto;
+    @include flex-center();
+    flex-direction: column;
+    gap: 44px;
+
+    &__form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    &__inputs-container {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        width: 100%;
+    }
+
+    &__row {
+        margin-top: 35px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__remember {
+        @include flex-align-center;
+        gap: 8px;
+    }
+
+    &__remember-toggle {
+        width: 42px;
+        height: 26px;
+        background: #D4D9EF;
+        border-radius: 28px;
+        position: relative;
+        cursor: pointer;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 18px;
+            height: 18px;
+            border-radius: 100%;
+            background-color: $primary;
+
+        }
+
+        &--active {
+            &::before {
+                left: 4px;
+            }
+        }
+    }
+
+    &__remember-text {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    &__link {
+        text-decoration: none;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        color: $main_dark-text-color;
+        transition: all .1s;
+
+        &:hover {
+            color: $primary;
+            text-decoration: underline;
+        }
+    }
+
+    &__button {
+        cursor: pointer;
+        margin-top: 72px;
+        align-self: center;
+        padding: 11px 56px;
+        background: $primary;
+        border-radius: 6px;
+        border: none;
+        color: #fff;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 36px;
+        transition: all .2s ease-in-out;
+
+        &:hover {
+            background-color: $primary-hover;
+        }
+    }
+}

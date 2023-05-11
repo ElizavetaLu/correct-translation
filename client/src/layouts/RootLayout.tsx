@@ -1,29 +1,24 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../app/hooks";
-import { userLoggedOut } from "../features/slices/authSlice";
-import { AiOutlineLogout } from "react-icons/ai";
+import { Outlet } from "react-router-dom";
+import LogoTitle from "../components/logo-title/LogoTitle";
+import "./RootLayout.scss";
+
 
 const RootLayout = () => {
-
-    const dispatch = useAppDispatch();
-    const navigation = useNavigate();
 
     const isAuth = localStorage.getItem("token");
 
     return (
-        <div>
-            {isAuth && <header className="py-4 px-8 flex justify-end">
-                <button
-                    className="flex items-center gap-2 capitalize text-[rgb(128,131,140)] transition-all duration-200 hover:text-[#6a75ca]"
-                    onClick={() => {
-                        navigation('/login')
-                        dispatch(userLoggedOut())
-                    }}
-                >
-                    log out
-                    <AiOutlineLogout />
-                </button>
-            </header>}
+        <div className="root-container">
+            {isAuth &&
+                <header className="header">
+                    <LogoTitle />
+                    <div className="header__user">
+                        <p className="header__user-name">Name LastName</p>
+                        <div className="header__avatar">
+                            <img className="header__avatar-icon" src="/images/icons/profile.png" alt="profile" />
+                        </div>
+                    </div>
+                </header>}
             <Outlet />
         </div>
     );

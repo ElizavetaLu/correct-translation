@@ -1,0 +1,23 @@
+@import "../../../../variables";
+
+.input {
+    height: 44px;
+    width: 100%;
+    max-width: $area-width;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 2px 2px 8px rgba(0, 7, 26, 0.04);
+    border-radius: 17px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+    color: $main_dark-text-color;
+    padding: 8px 16px;
+    border: none;
+    outline: none;
+
+    &::placeholder {
+        color: #B0B0B0;
+    }
+}

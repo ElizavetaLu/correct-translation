@@ -1,0 +1,39 @@
+@import "../../variables";
+
+.root-container {
+    max-width: 1310px;
+    margin: auto;
+    padding: 0px 40px;
+
+    .header {
+        margin: 82px 0 47px;
+        @include flex-align-center;
+        justify-content: space-between;
+
+        &__user {
+            @include flex-align-center;
+            gap: 12px;
+        }
+
+        &__user-name {
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 21px;
+            color: #575757;
+        }
+
+        &__avatar {
+            border: 1.85px solid #00071a1e;
+            border-radius: 100%;
+            padding: 1px;
+            width: 48px;
+            height: 48px;
+            @include flex-center;
+        }
+
+        &__avatar-icon {
+            height: 43.11px;
+        }
+    }
+}
