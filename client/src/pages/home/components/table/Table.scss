@@ -6,7 +6,7 @@
 
 .table {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: 14px;
     width: 100%;
 
@@ -79,9 +79,30 @@
             }
         }
 
-        &__button {
+        &__save {
+            @include flex-center;
+            cursor: pointer;
             width: 15px;
             height: 15px;
+
+            &::before,
+            &::after {
+                content: "";
+                position: absolute;
+                width: 1.8px;
+                border-radius: 2px;
+                background-color: #fff;
+            }
+
+            &::before {
+                transform: rotate(45deg) translateX(3px) translateY(-2px);
+                height: 17px;
+            }
+
+            &::after {
+                transform: rotate(135deg) translateX(6px) translateY(1px);
+                height: 10px;
+            }
         }
     }
 }

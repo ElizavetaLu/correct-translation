@@ -1,6 +1,6 @@
-import { Dispatch, FormEventHandler, useState } from "react";
+import { Dispatch, FormEventHandler, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 import { login } from "../../store/actions/actionCreators";
 
@@ -11,12 +11,16 @@ import "./Login.scss";
 
 const Login = () => {
 
-    const dispatch: Dispatch<any> = useDispatch()
-    const navigate = useNavigate()
+    const dispatch: Dispatch<any> = useDispatch();
+    const navigate = useNavigate();
 
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
-    const [errorMessage, setErrorMessage] = useState<string>('')
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+
+    const [emailErrorMessage, setEmailErrorMessage] = useState<string>('');
+    const [pswErrorMessage, setPswErrorMessage] = useState<string>('');
+
+    const { errorMessage } = useSelector((state: any) => state.auth)
 
 
     const [isChecked, setIsChecked] = useState<boolean>(false);
@@ -24,11 +28,15 @@ const Login = () => {
 
     const submit: FormEventHandler = e => {
         e.preventDefault()
+        if (!email.trim()) setEmailErrorMessage('Enter your email');
+        if (!password.trim()) setPswErrorMessage('Enter your password');
 
-        if (!(email.trim || password.trim())) return setErrorMessage('Provide both: Email and Password')
-
-        dispatch(login({ email, password }, () => navigate('/')))
+        dispatch(login({ email, password }, () => navigate('/')));
     }
+
+    useEffect(() => {
+        setPswErrorMessage(errorMessage)
+    }, [errorMessage])
 
 
     return (
@@ -42,6 +50,8 @@ const Login = () => {
                         label="Email"
                         value={email}
                         onChange={setEmail}
+                        error={emailErrorMessage}
+                        resetError={setEmailErrorMessage}
                     />
 
                     <InputWithLabel
@@ -50,6 +60,8 @@ const Login = () => {
                         label="Password"
                         value={password}
                         onChange={setPassword}
+                        error={pswErrorMessage}
+                        resetError={setPswErrorMessage}
                     />
                 </div>
                 <div className="login__row">

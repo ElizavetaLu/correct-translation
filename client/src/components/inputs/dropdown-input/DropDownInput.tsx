@@ -1,16 +1,18 @@
+import { ILanguage, ILanguageDDInputProps } from "../../../intefaces/intefaces";
 import useToggle from "../../../hooks/useToggle";
-import { languages } from "../../../languages"
+import { languages } from "../../../languages";
 import "./DropDownInput.scss";
 
 
-interface IDropDownInput {
-    value: string,
-    setValue: any
-}
+ 
+const DropDownInput = ({ value, setValue }: ILanguageDDInputProps) => {
 
-const DropDownInput = ({ value, setValue }: IDropDownInput) => {
+    const [isOpen, toggle] = useToggle();
 
-    const [isOpen, toggle] = useToggle()
+    const filteredLanguages = languages.filter((item: ILanguage) => {
+        if (item.name.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
+            return item
+    })
 
     return (
         <div className="dropdown-search">
@@ -19,13 +21,14 @@ const DropDownInput = ({ value, setValue }: IDropDownInput) => {
                 className="dropdown-search__input"
                 value={value}
                 onChange={e => setValue(e.target.value)}
+                onFocus={toggle}
             />
             <div className="dropdown-search__button" onClick={toggle}></div>
             {isOpen && <ul className="dropdown-search__list">
-                {languages.map(item => <li
+                {filteredLanguages.map(item => <li
                     key={item.name}
                     className="dropdown-search__list-item"
-                    onClick={()=>{
+                    onClick={() => {
                         setValue(item.name);
                         toggle();
                     }}

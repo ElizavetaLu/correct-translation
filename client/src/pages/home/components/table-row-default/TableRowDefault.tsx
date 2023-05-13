@@ -7,17 +7,17 @@ import { setActiveIndex } from "../../../../store/actions/actionCreators";
 interface ITableRowDefault {
     sourceText: string,
     targetText: string,
-    i: number
+    id: string
 }
 
-const TableRowDefault = ({ sourceText, targetText, i }: ITableRowDefault) => {
+const TableRowDefault = ({ id, sourceText, targetText }: ITableRowDefault) => {
 
     const dispatch: Dispatch<any> = useDispatch();
 
     return (
-        <div key={i} className="row">
-            <div className="row__item" onClick={() => dispatch(setActiveIndex(i))}>{sourceText}</div>
-            <div className="row__item" onClick={() => dispatch(setActiveIndex(i))}>{targetText}</div>
+        <div className="row">
+            <div className="row__item" onClick={() => dispatch(setActiveIndex(id))}>{sourceText}</div>
+            <div className="row__item" onClick={() => dispatch(setActiveIndex(id))}>{targetText}</div>
         </div>
     )
 }

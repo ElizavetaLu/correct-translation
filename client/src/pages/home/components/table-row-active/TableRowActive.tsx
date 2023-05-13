@@ -5,14 +5,15 @@ import { setActiveIndex, setCorrectedSentence } from "../../../../store/actions/
 import { SentencesData } from "../../../../intefaces/intefaces";
 
 import TinyDDInput from "../../../../components/inputs/tiny-dropdown-input/TinyDDInput";
+import Cross from "../../../../components/cross-btn/Cross";
 
 
 
 interface ISentencesData extends SentencesData {
-    index: number
+    id: string
 }
 
-const TableRowActive = ({ sourceLang, sourceText, targetLang, targetText, index }: ISentencesData) => {
+const TableRowActive = ({ id, sourceLang, sourceText, targetLang, targetText }: ISentencesData) => {
 
     const dispatch: Dispatch<any> = useDispatch();
 
@@ -31,9 +32,10 @@ const TableRowActive = ({ sourceLang, sourceText, targetLang, targetText, index 
             targetText: newTargetText
         };
 
-        dispatch(setCorrectedSentence(correctedSentence, index));
+        dispatch(setCorrectedSentence(correctedSentence, id));
         dispatch(setActiveIndex(null))
     }
+
 
     return (
         <div className="row">
@@ -45,7 +47,7 @@ const TableRowActive = ({ sourceLang, sourceText, targetLang, targetText, index 
                 ></textarea>
 
                 <div className="row__select-lang">
-                    <TinyDDInput lang={newSourceLang} setLang={setNewSourceLang} />
+                    <TinyDDInput value={newSourceLang} setValue={setNewSourceLang} />
                 </div>
             </div>
             <div className="row__item-active">
@@ -56,17 +58,17 @@ const TableRowActive = ({ sourceLang, sourceText, targetLang, targetText, index 
                 ></textarea>
 
                 <div className="row__select-lang">
-                    <TinyDDInput lang={newTargetLang} setLang={setNewTargetLang} />
+                    <TinyDDInput value={newTargetLang} setValue={setNewTargetLang} />
                 </div>
             </div>
 
             <div className="row__buttons">
                 <div className="row__button-container" onClick={onSave} >
-                    <img className="row__button" src="/images/icons/save.png" alt="save" />
+                    <div className="row__save"></div>
                 </div>
 
                 <div className="row__button-container" onClick={() => dispatch(setActiveIndex(null))}>
-                    <img className="row__button" src="/images/icons/cancel.png" alt="cancel" />
+                    <Cross defaultWhite />
                 </div>
             </div>
 

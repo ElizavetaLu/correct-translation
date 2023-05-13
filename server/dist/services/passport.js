@@ -28,6 +28,7 @@ const jwtOptions = {
 };
 const jwtLogin = new passport_jwt_1.Strategy(jwtOptions, async ({ sub }, done) => {
     try {
+        console.log(sub);
         const user = await user_1.default.findById(sub).exec();
         if (!user)
             return done(null, false);

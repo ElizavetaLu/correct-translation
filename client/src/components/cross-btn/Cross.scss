@@ -1,0 +1,49 @@
+@import "../../../variables";
+
+.cross {
+    @include flex-center;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        width: 1.8px;
+        height: 21px;
+        border-radius: 2px;
+    }
+
+    &::before {
+        transform: rotate(45deg);
+    }
+
+    &::after {
+        transform: rotate(135deg);
+    }
+
+    &--primary {
+
+        &::before,
+        &::after {
+            background-color: $primary;
+        }
+    }
+
+    &--default {
+
+        &::before,
+        &::after {
+            background-color: #fff;
+        }
+    }
+
+    &--error {
+
+        &::before,
+        &::after {
+            background-color: $error;
+        }
+    }
+}

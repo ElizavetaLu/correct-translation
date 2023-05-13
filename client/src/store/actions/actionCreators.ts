@@ -6,7 +6,9 @@ import {
     AUTH_USER,
     SET_ACTIVE,
     SET_LOADING,
-    SET_SENTENCES
+    SET_SENTENCES,
+    SET_SENTENCE,
+    USER_EMAIL
 } from "./types";
 
 export const login = (credentials: AuthCredentials, callback: () => void) => (dispatch: AuthDispatchType) => {
@@ -14,8 +16,10 @@ export const login = (credentials: AuthCredentials, callback: () => void) => (di
     loginFetch(credentials)
         .then(({ data }) => {
             dispatch({ type: AUTH_USER, payload: data.token });
+            dispatch({ type: USER_EMAIL, payload: data.email });
 
             localStorage.setItem('token', data.token);
+            localStorage.setItem('email', data.email);
 
             callback();
             window.location.reload();
@@ -36,54 +40,20 @@ export const getSentences = () => (dispatch: Dispatch<AnyAction>) => {
     sentencesFetch()
         .then(({ data }) => {
             dispatch({ type: SET_LOADING });
-
-            const sentecesToString = JSON.stringify(data)
-            localStorage.setItem('sentences', sentecesToString)
+            dispatch({ type: SET_SENTENCES, payload: data });
         })
 }
 
-export const setCorrectedSentence = (sentencesData: SentencesData, index: number) => (dispatch: Dispatch<AnyAction>) => {
+export const setCorrectedSentence = (sentencesData: SentencesData, id: string | null) => (dispatch: Dispatch<AnyAction>) => {
 
     setCorrectedSentenceFetch(sentencesData)
-        .then(({ data }) => {
-            if (data.success) {
-
-                const senteces = localStorage.getItem('sentences');
-
-
-                //index '-1' - author's brand new sentences
-                if (senteces) {
-
-                    const sentecesList = JSON.parse(senteces);
-                    let newList = [];
-
-                    if (index !== -1) {
-
-                        for (let i = 0; i < sentecesList.length; i++) {
-                            if (i === index) {
-                                newList.push(sentencesData)
-                            } else {
-                                newList.push(sentecesList[i])
-                            }
-                        }
-
-                    } else {
-                        newList = [sentencesData, ...sentecesList]
-                    }
-
-                    const newListToString = JSON.stringify(newList);
-                    localStorage.setItem('sentences', newListToString)
-
-                    dispatch({ type: SET_SENTENCES, payload: newList });
-
-
-                }
-            }
+        .then(({ data }) => { 
+                dispatch({ type: SET_SENTENCE, payload: { data, id } });
         })
         .catch(err => console.log(err))
 }
 
-export const setActiveIndex = (i: number | null) => ({
+export const setActiveIndex = (id: string | null) => ({
     type: SET_ACTIVE,
-    payload: i
+    payload: id
 })
