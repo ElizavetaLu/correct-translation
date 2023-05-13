@@ -8,9 +8,10 @@
 
     &__input {
         background-color: $main_bg-color;
+        text-transform: capitalize;
         border: 1px solid #fff;
         border-radius: 20px;
-        padding: 8px 24px;
+        padding: 8px 44px 8px 24px;
         @include font-16-400;
         width: 100%;
         height: 40px;
@@ -33,8 +34,8 @@
     }
 
     &__list {
-        background-color: $main_bg-color;
-        border: 1px solid #fff;
+        background-color: #fff;
+        border: 1px solid $main_bg-color;
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
         border-top: none;
@@ -55,7 +56,7 @@
         height: 40px;
         @include flex-align-center;
         padding: 0px 24px;
-        border-bottom: 1px solid #fff;
+        border-bottom: 1px solid $main_bg-color;
         cursor: pointer;
         transition: all .2s ease-in-out;
 
@@ -64,7 +65,7 @@
         }
 
         &:hover {
-            background-color: #fff;
+            background-color: #e8edf7;
         }
     }
 }

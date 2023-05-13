@@ -1,5 +1,5 @@
-import { SentencesData } from '../../intefaces/intefaces';
-import { SET_LOADING, SET_SENTENCES, SET_ACTIVE } from './../actions/types';
+import { ReceivedSentencesData } from '../../intefaces/intefaces';
+import { SET_LOADING, SET_SENTENCES, SET_ACTIVE, SET_SENTENCE } from './../actions/types';
 
 
 interface IAction {
@@ -9,16 +9,14 @@ interface IAction {
 
 interface IState {
     isLoading: boolean,
-    sentences: null | SentencesData[],
-    activeIndex: null | number,
+    sentences: null | ReceivedSentencesData[],
+    activeItemId: null | string,
 }
-
-const sentencesList = JSON.parse(localStorage.getItem('sentences') || 'null')
 
 const initialState: IState = {
     isLoading: false,
-    sentences: sentencesList,
-    activeIndex: null,
+    sentences: null,
+    activeItemId: null,
 }
 
 const sentencesReducer = (state = initialState, { type, payload }: IAction) => {
@@ -31,7 +29,35 @@ const sentencesReducer = (state = initialState, { type, payload }: IAction) => {
             return { ...state, sentences: payload };
 
         case SET_ACTIVE:
-            return { ...state, activeIndex: payload };
+            return { ...state, activeItemId: payload };
+
+        case SET_SENTENCE:
+
+            const currentList = state.sentences;
+
+            if (currentList) {
+                let updatedList: ReceivedSentencesData[] = [];
+
+
+                currentList.map((item) => {
+                    if (payload.id === item._id) {
+                        return updatedList.push({
+                            ...item,
+                            sourceLang: payload.data.sourceLang,
+                            sourceText: payload.data.sourceText,
+                            targetLang: payload.data.targetLang,
+                            targetText: payload.data.targetText
+                        })
+                    } else if (payload.id === null) {
+                        return updatedList = [...currentList, payload.data]
+                    }
+                    return updatedList.push(item)
+                })
+
+                return { ...state, sentences: updatedList };
+            }
+
+            return state
 
         default:
             return state;

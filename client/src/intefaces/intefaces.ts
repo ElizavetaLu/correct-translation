@@ -1,9 +1,8 @@
 //Authentication interfaces
 export interface AuthState {
     token: string | null,
+    email: string | null,
     errorMessage: string,
-    email: string,
-    qrCode: string
 }
 
 export interface AuthActionForReducer {
@@ -41,7 +40,9 @@ export interface InputProps {
     name: string,
     label: string,
     value: string,
-    onChange: Function
+    onChange: (val: string) => void,
+    error: string
+    resetError: (emptString: string) => void,
 }
 
 export interface SentencesData {
@@ -50,9 +51,18 @@ export interface SentencesData {
     targetLang: string,
     targetText: string
 };
+export interface ReceivedSentencesData extends SentencesData {
+    _id: string,
+    corrected: boolean
+};
 
 export interface ILanguage {
     name: string,
     code: string,
     flag: string
 };
+
+export interface ILanguageDDInputProps {
+    value: string,
+    setValue: (val: string) => void
+}

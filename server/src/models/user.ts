@@ -34,9 +34,8 @@ userSchema.methods.verifyPassword = function (
 ) {
     bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
 
-        if (err) return callback(err);
-
-        callback(null, isMatch);
+        if (err) return callback(err); 
+        callback(null, isMatch, { message: "Not a valid password" });
     });
 };
 

@@ -1,35 +1,35 @@
+import { Sentences, CorrectedSentences } from '../models/sentences';
 import { RequestHandler } from 'express';
-import { v4 as uuidv4 } from 'uuid';
-const fs = require('fs');
+import jwt from 'jsonwebtoken';
+import config from "../config";
 
 
-export const getSentences: RequestHandler = (req, res, next) => {
-
-    fs.readFile(__dirname + '/../../src/data/sentences.json', 'utf8', (err: Error, data: any) => {
-        if (err) return res.json({ error: 'Error file read.' });
-        res.send(data)
-    });
+export const getSentences: RequestHandler = async (req, res, next) => {
+    const dataToFix = await Sentences.find()
+    res.send(dataToFix)
 }
 
-export const setFixedSentence: RequestHandler = (req, res, next) => {
-    const data = req.body;
+export const setCorrectedSentence: RequestHandler = (req, res, next) => {
+    const { sourceLang, sourceText, targetLang, targetText } = req.body;
+    const token = req.headers.authorization!;
 
-    if (!data) return res.status(400).send({ error: 'No data was provided' });
+    jwt.verify(token, config.secret, async (err, verifide) => {
+        if (!verifide) return res.status(400).json({ error: 'User does not exist' });
 
-    const fixedSentence = { _id: uuidv4(), ...data }
+        if (err) return res.status(401).json({ error: err });
 
-    fs.readFile(__dirname + '/../../src/data/fixedSentences.json', 'utf8', (err: Error, data: any) => {
-        if (err) return res.json({ error: 'Error file read.' });
 
-        const sentencesArray = JSON.parse(data);
-        sentencesArray.push(fixedSentence);
+        const sentences = new CorrectedSentences({
+            sourceLang,
+            sourceText,
+            targetLang,
+            targetText,
+            userId: verifide.sub,
+            correct: true
+        });
 
-        const sentencesToString = JSON.stringify(sentencesArray);
-
-        fs.writeFile(__dirname + '/../../src/data/fixedSentences.json', sentencesToString, (err: Error) => {
-            if (err) return res.json({ error: 'Error writing file' });
-
-            res.status(200).send({ success: true });
-        })
-    });
-}
+        sentences.save()
+            .then((obj) => res.status(200).send(obj))
+            .catch(() => res.status(400).send({ success: false }))
+    })
+} 

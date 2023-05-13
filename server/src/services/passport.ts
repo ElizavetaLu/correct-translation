@@ -8,11 +8,10 @@ import { Strategy as LocalStrategy } from 'passport-local';
 const localOptions = { usernameField: 'email' };
 
 const localLogin = new LocalStrategy(localOptions, (email: string, password: string, done: VerifiedCallback) => {
- 
+
     User.findOne({ email }).then(user => {
 
         if (!user) return done(null, false);
-
         user.verifyPassword(password, (err: Error, isMatch: boolean) => {
 
             if (err) return done(err);
@@ -33,6 +32,7 @@ const jwtOptions = {
 
 const jwtLogin = new JwtStrategy(jwtOptions, async ({ sub }, done) => {
     try {
+        console.log(sub)
         const user = await User.findById(sub).exec();
 
         if (!user) return done(null, false);

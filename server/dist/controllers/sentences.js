@@ -1,32 +1,36 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setFixedSentence = exports.getSentences = void 0;
-const uuid_1 = require("uuid");
-const fs = require('fs');
-const getSentences = (req, res, next) => {
-    fs.readFile(__dirname + '/../../src/data/sentences.json', 'utf8', (err, data) => {
-        if (err)
-            return res.json({ error: 'Error file read.' });
-        res.send(data);
-    });
+exports.setCorrectedSentence = exports.getSentences = void 0;
+const sentences_1 = require("../models/sentences");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const config_1 = __importDefault(require("../config"));
+const getSentences = async (req, res, next) => {
+    const dataToFix = await sentences_1.Sentences.find();
+    res.send(dataToFix);
 };
 exports.getSentences = getSentences;
-const setFixedSentence = (req, res, next) => {
-    const data = req.body;
-    if (!data)
-        return res.status(400).send({ error: 'No data was provided' });
-    const fixedSentence = { _id: (0, uuid_1.v4)(), ...data };
-    fs.readFile(__dirname + '/../../src/data/fixedSentences.json', 'utf8', (err, data) => {
+const setCorrectedSentence = (req, res, next) => {
+    const { sourceLang, sourceText, targetLang, targetText } = req.body;
+    const token = req.headers.authorization;
+    jsonwebtoken_1.default.verify(token, config_1.default.secret, async (err, verifide) => {
+        if (!verifide)
+            return res.status(400).json({ error: 'User does not exist' });
         if (err)
-            return res.json({ error: 'Error file read.' });
-        const sentencesArray = JSON.parse(data);
-        sentencesArray.push(fixedSentence);
-        const sentencesToString = JSON.stringify(sentencesArray);
-        fs.writeFile(__dirname + '/../../src/data/fixedSentences.json', sentencesToString, (err) => {
-            if (err)
-                return res.json({ error: 'Error writing file' });
-            res.status(200).send({ success: true });
+            return res.status(401).json({ error: err });
+        const sentences = new sentences_1.CorrectedSentences({
+            sourceLang,
+            sourceText,
+            targetLang,
+            targetText,
+            userId: verifide.sub,
+            correct: true
         });
+        sentences.save()
+            .then((obj) => res.status(200).send(obj))
+            .catch(() => res.status(400).send({ success: false }));
     });
 };
-exports.setFixedSentence = setFixedSentence;
+exports.setCorrectedSentence = setCorrectedSentence;
