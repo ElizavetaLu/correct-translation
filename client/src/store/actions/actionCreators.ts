@@ -19,7 +19,6 @@ export const login = (credentials: AuthCredentials, callback: () => void) => (di
             dispatch({ type: USER_EMAIL, payload: data.email });
 
             localStorage.setItem('token', data.token);
-            localStorage.setItem('email', data.email);
 
             callback();
             window.location.reload();
@@ -27,10 +26,17 @@ export const login = (credentials: AuthCredentials, callback: () => void) => (di
         .catch(() => dispatch(setAuthError('Invalid login credentials')))
 }
 
+export const logout = () => (dispatch: Dispatch<AnyAction>) => {
+    dispatch({ type: AUTH_USER, payload: '' })
+    localStorage.removeItem('token');
+    window.location.reload();
+}
+
 export const setAuthError = (errorMessage: string) => ({
     type: AUTH_ERROR,
     payload: errorMessage
 })
+
 
 
 export const getSentences = () => (dispatch: Dispatch<AnyAction>) => {
@@ -47,8 +53,8 @@ export const getSentences = () => (dispatch: Dispatch<AnyAction>) => {
 export const setCorrectedSentence = (sentencesData: SentencesData, id: string | null) => (dispatch: Dispatch<AnyAction>) => {
 
     setCorrectedSentenceFetch(sentencesData)
-        .then(({ data }) => { 
-                dispatch({ type: SET_SENTENCE, payload: { data, id } });
+        .then(({ data }) => {
+            dispatch({ type: SET_SENTENCE, payload: { data, id } });
         })
         .catch(err => console.log(err))
 }

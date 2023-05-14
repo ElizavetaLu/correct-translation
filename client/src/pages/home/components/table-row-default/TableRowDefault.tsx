@@ -2,6 +2,7 @@ import { Dispatch } from "react";
 import { useDispatch } from "react-redux";
 
 import { setActiveIndex } from "../../../../store/actions/actionCreators";
+import RowSpace from "../../../../components/row-space/RowSpace";
 
 
 interface ITableRowDefault {
@@ -18,6 +19,7 @@ const TableRowDefault = ({ id, sourceText, targetText }: ITableRowDefault) => {
         <div className="row">
             <div className="row__item" onClick={() => dispatch(setActiveIndex(id))}>{sourceText}</div>
             <div className="row__item" onClick={() => dispatch(setActiveIndex(id))}>{targetText}</div>
+            <RowSpace/>
         </div>
     )
 }

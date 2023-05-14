@@ -9,6 +9,7 @@ import Input from "../../components/inputs/input/Input";
 import Cross from "../../components/cross-btn/Cross";
 import Table from "./components/table/Table";
 import "./Home.scss";
+import RowSpace from "../../components/row-space/RowSpace";
 
 
 
@@ -91,22 +92,27 @@ const Home = () => {
             </form>
 
             <div className="select-language">
-                <DropDownInput value={newSourceLang} setValue={setNewSourceLang} />
-                <img
-                    src="/images/icons/arrows.png"
-                    alt="swap-arrows"
-                    className="select-language__button"
-                    onClick={onReverse}
-                />
-                <DropDownInput value={newTargetLang} setValue={setNewTargetLang} />
+                <div className="select-language__inputs">
+                    <DropDownInput value={newSourceLang} setValue={setNewSourceLang} />
+                    <img
+                        src="/images/icons/arrows.png"
+                        alt="swap-arrows"
+                        className="select-language__button"
+                        onClick={onReverse}
+                    />
+                    <DropDownInput value={newTargetLang} setValue={setNewTargetLang} />
+                </div>
+                <RowSpace />
             </div>
 
             <div className="add-sentence">
                 <Input value={authorSourceText} setValue={setAuthorSourceText} />
                 <Input value={authorTargetText} setValue={setAuthorTargetText} />
-                <div className="add-sentence__button-container" onClick={onAddNewSentences}>
-                    <Cross defaultWhite />
-                </div>
+                <RowSpace>
+                    <div className="add-sentence__button-container" onClick={onAddNewSentences}>
+                        <Cross defaultWhite />
+                    </div>
+                </RowSpace>
             </div>
 
             <div className="sentences">

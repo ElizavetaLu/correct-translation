@@ -5,6 +5,7 @@ import { setActiveIndex, setCorrectedSentence } from "../../../../store/actions/
 import { SentencesData } from "../../../../intefaces/intefaces";
 
 import TinyDDInput from "../../../../components/inputs/tiny-dropdown-input/TinyDDInput";
+import RowSpace from "../../../../components/row-space/RowSpace";
 import Cross from "../../../../components/cross-btn/Cross";
 
 
@@ -62,15 +63,16 @@ const TableRowActive = ({ id, sourceLang, sourceText, targetLang, targetText }: 
                 </div>
             </div>
 
-            <div className="row__buttons">
-                <div className="row__button-container" onClick={onSave} >
-                    <div className="row__save"></div>
+            <RowSpace>
+                <div className="row__buttons">
+                    <div className="row__button-container" onClick={onSave} >
+                        <div className="row__save"></div>
+                    </div>
+                    <div className="row__button-container" onClick={() => dispatch(setActiveIndex(null))}>
+                        <Cross defaultWhite />
+                    </div>
                 </div>
-
-                <div className="row__button-container" onClick={() => dispatch(setActiveIndex(null))}>
-                    <Cross defaultWhite />
-                </div>
-            </div>
+            </RowSpace>
 
         </div>
     )

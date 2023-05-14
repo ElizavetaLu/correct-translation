@@ -16,8 +16,7 @@
 
         &__item,
         &__item-active {
-            width: 100%;
-            max-width: $area-width;
+            width: $area-width; 
         }
 
         &__item,
@@ -42,10 +41,12 @@
 
         &__item-active {
             position: relative;
+            height: 100%;
         }
 
         &__textarea {
             width: 100%;
+            height: 100%;
             resize: none;
             background: rgba(255, 255, 255, 0.8);
             border: 2px solid #E1E3F7;
