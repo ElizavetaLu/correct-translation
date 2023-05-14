@@ -10,9 +10,37 @@
         @include flex-align-center;
         justify-content: space-between;
 
+        &__right {
+            @include flex-align-center;
+            gap: 30px
+        }
+
+        &__button {
+            cursor: pointer;
+            background-color: #dc8a88;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 32px;
+            color: #fff;
+            transition: all .2s ease-in-out;
+            text-transform: capitalize;
+            font-size: 14px;
+            font-weight: 400;
+
+            &:hover {
+                background-color: rgb(228, 84, 84);
+            }
+        }
+
         &__user {
             @include flex-align-center;
+            text-decoration: none;
             gap: 12px;
+            color: #575757;
+        }
+
+        &__user.active {
+            color: $primary;
         }
 
         &__user-name {
@@ -20,7 +48,6 @@
             font-weight: 400;
             font-size: 14px;
             line-height: 21px;
-            color: #575757;
         }
 
         &__avatar {
