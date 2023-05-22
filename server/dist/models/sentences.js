@@ -22,9 +22,13 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CorrectedSentences = exports.Sentences = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
+const mongoose_paginate_v2_1 = __importDefault(require("mongoose-paginate-v2"));
 const sentencesSchema = new mongoose_1.Schema({
     sourceLang: String,
     sourceText: String,
@@ -32,6 +36,7 @@ const sentencesSchema = new mongoose_1.Schema({
     targetText: String,
     correct: Boolean
 });
+sentencesSchema.plugin(mongoose_paginate_v2_1.default);
 const correctedSentencesSchema = new mongoose_1.Schema({
     sourceLang: String,
     sourceText: String,
