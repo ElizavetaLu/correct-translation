@@ -5,8 +5,27 @@ import config from "../config";
 
 
 export const getSentences: RequestHandler = async (req, res, next) => {
-    const dataToFix = await Sentences.find()
-    res.send(dataToFix)
+
+    const { page, limit, sourceLang, targetLang, keyWords } = req.query;
+
+    const options = {
+        page,
+        limit
+    };
+
+    const query = {
+        sourceLang,
+        targetLang,
+        sourceText: { $regex: keyWords ? keyWords : '', $options: 'i' }
+    };
+
+
+    Sentences.paginate(query, options, (error: Error, result: any) => {
+
+        if (error) return res.status(422).json({ error });
+
+        res.status(200).send(result)
+    });
 }
 
 export const setCorrectedSentence: RequestHandler = (req, res, next) => {
@@ -29,7 +48,32 @@ export const setCorrectedSentence: RequestHandler = (req, res, next) => {
         });
 
         sentences.save()
-            .then((obj) => res.status(200).send(obj))
-            .catch(() => res.status(400).send({ success: false }))
+            .then(() => res.status(200).send({ result: 'Changes were successfully saved' }))
+            .catch(() => res.status(400).send({ error: 'Bad request' }))
+    })
+}
+
+
+export const setBrandNewSentence: RequestHandler = (req, res, next) => {
+    const { sourceLang, sourceText, targetLang, targetText } = req.body;
+    const token = req.headers.authorization!;
+
+    jwt.verify(token, config.secret, async (err, verifide) => {
+        if (!verifide) return res.status(400).json({ error: 'User does not exist' });
+
+        if (err) return res.status(401).json({ error: err });
+
+
+        const sentences = new Sentences({
+            sourceLang,
+            sourceText,
+            targetLang,
+            targetText,
+            correct: false
+        });
+
+        sentences.save()
+            .then(() => res.status(200).send({ result: 'New sentence was created' }))
+            .catch(() => res.status(400).send({ error: 'Bad request' }))
     })
 } 

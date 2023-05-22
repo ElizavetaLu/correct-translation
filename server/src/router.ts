@@ -1,4 +1,4 @@
-import { getSentences, setCorrectedSentence } from './controllers/sentences';
+import { getSentences, setBrandNewSentence, setCorrectedSentence } from './controllers/sentences';
 import { logIn } from './controllers/authentication';
 import passport from './services/passport';
 
@@ -17,5 +17,6 @@ export default (app: any) => {
 
 
     app.get('/sentences', getSentences);
+    app.post('/new-sentence', setBrandNewSentence);
     app.post('/corrected-sentence', setCorrectedSentence);
 }
