@@ -4,14 +4,14 @@ import { languages } from "../../../languages";
 import "./DropDownInput.scss";
 
 
- 
-const DropDownInput = ({ value, setValue }: ILanguageDDInputProps) => {
+
+const DropDownInput = ({ value, setValue, action }: ILanguageDDInputProps) => {
 
     const [isOpen, toggle] = useToggle();
 
     const filteredLanguages = languages.filter((item: ILanguage) => {
-        if (item.name.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
-            return item
+        if (item.name.toLocaleLowerCase().includes(value.name.toLocaleLowerCase()))
+            return item;
     })
 
     return (
@@ -19,21 +19,31 @@ const DropDownInput = ({ value, setValue }: ILanguageDDInputProps) => {
             <input
                 type="text"
                 className="dropdown-search__input"
-                value={value}
-                onChange={e => setValue(e.target.value)}
+                value={value.name}
+                onChange={e => setValue({ ...value, name: e.target.value })}
                 onFocus={toggle}
             />
             <div className="dropdown-search__button" onClick={toggle}></div>
-            {isOpen && <ul className="dropdown-search__list">
-                {filteredLanguages.map(item => <li
-                    key={item.name}
-                    className="dropdown-search__list-item"
-                    onClick={() => {
-                        setValue(item.name);
-                        toggle();
-                    }}
-                >{item.name}</li>)}
-            </ul>}
+
+            {
+                isOpen && <ul className="dropdown-search__list">
+                    {
+                        filteredLanguages.map(item => {
+                            return (
+                                <li
+                                    key={item.name}
+                                    className="dropdown-search__list-item"
+                                    onClick={() => {
+                                        setValue(item);
+                                        toggle();
+                                        action(item.code);
+                                    }}
+                                >{item.name}</li>
+                            )
+                        })
+                    }
+                </ul>
+            }
         </div>
     )
 }

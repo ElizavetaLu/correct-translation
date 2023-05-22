@@ -1,4 +1,5 @@
 //Authentication interfaces
+
 export interface AuthState {
     token: string | null,
     email: string | null,
@@ -25,25 +26,12 @@ export interface LogoutActionForAC {
     payload: string
 }
 
-
 export type AuthDispatchType = (args: AuthActionForAC) => AuthActionForAC
-// export type LogoutDispatchType = (args: LogoutActionForAC) => LogoutActionForAC
 
 
 
 
-
-
-
-export interface InputProps {
-    type: string,
-    name: string,
-    label: string,
-    value: string,
-    onChange: (val: string) => void,
-    error: string
-    resetError: (emptString: string) => void,
-}
+//Sentences data interfaces
 
 export interface SentencesData {
     sourceLang: string,
@@ -62,7 +50,64 @@ export interface ILanguage {
     flag: string
 };
 
+export interface ILanguages {
+    sourceLang: string,
+    targetLang: string
+}
+
 export interface ILanguageDDInputProps {
+    value: ILanguage,
+    setValue: (lang: ILanguage) => void;
+    action: (lang: string) => void;
+}
+
+export interface ILanguageTinyDDInputProps {
+    value: string,
+    setValue: (lang: string) => void;
+}
+
+
+export interface IRequestData {
+    pageNumber: number,
+    sourceLang: string,
+    targetLang: string
+    searchTerm?: string,
+}
+
+
+
+//components props
+export interface IPopup {
+    isShown: boolean,
+    message: string,
+    toggle: () => void
+}
+
+export interface IInputWithLabel {
+    type: string,
+    name: string,
+    label: string,
+    value: string,
+    onChange: (val: string) => void,
+    error: string
+    resetError: (emptString: string) => void,
+}
+
+export interface IInput {
     value: string,
     setValue: (val: string) => void
+}
+
+
+export interface ITableRowDefault {
+    sourceText: string,
+    targetText: string,
+    id: string
+}
+
+export interface ICross {
+    action?: any,
+    primary?: boolean,
+    defaultWhite?: boolean,
+    error?: boolean
 }

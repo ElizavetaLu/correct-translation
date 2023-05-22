@@ -1,4 +1,4 @@
-import "./LogoTitle.scss"
+import "./LogoTitle.scss";
 
 const LogoTitle = () => {
     return (

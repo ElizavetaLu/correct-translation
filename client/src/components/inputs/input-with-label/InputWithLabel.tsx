@@ -1,13 +1,12 @@
 import { useDispatch } from "react-redux";
-
 import { setAuthError } from "../../../store/actions/actionCreators";
-import { InputProps } from "../../../intefaces/intefaces";
+import { IInputWithLabel } from "../../../intefaces/intefaces";
 
 import Cross from "../../cross-btn/Cross";
 import "./InputWithLabel.scss";
 
 
-const InputWithLabel = ({ type, name, label, value, onChange, error, resetError }: InputProps) => {
+const InputWithLabel = ({ type, name, label, value, onChange, error, resetError }: IInputWithLabel) => {
 
     const dispatch = useDispatch();
 

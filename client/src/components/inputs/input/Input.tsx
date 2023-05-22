@@ -1,9 +1,6 @@
+import { IInput } from "../../../intefaces/intefaces";
 import "./Input.scss";
 
-interface IInput {
-    value: string,
-    setValue: (val: string) => void
-}
 
 const Input = ({ value, setValue }: IInput) => {
 

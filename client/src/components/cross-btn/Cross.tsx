@@ -1,11 +1,5 @@
+import { ICross } from "../../intefaces/intefaces";
 import "./Cross.scss";
-
-interface ICross {
-    action?: any,
-    primary?: boolean,
-    defaultWhite?: boolean,
-    error?: boolean
-}
 
 const Cross = ({ action, primary, defaultWhite, error }: ICross) => {
 

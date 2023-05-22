@@ -34,28 +34,30 @@ const TableRowActive = ({ id, sourceLang, sourceText, targetLang, targetText }: 
         };
 
         dispatch(setCorrectedSentence(correctedSentence, id));
-        dispatch(setActiveIndex(null))
+        dispatch(setActiveIndex(null));
     }
 
 
     return (
         <div className="row">
+            
             <div className="row__item-active">
                 <textarea
+                    className="row__textarea"
                     value={newSourceText}
                     onChange={e => setNewSourceText(e.target.value)}
-                    className="row__textarea"
                 ></textarea>
 
                 <div className="row__select-lang">
                     <TinyDDInput value={newSourceLang} setValue={setNewSourceLang} />
                 </div>
             </div>
+
             <div className="row__item-active">
                 <textarea
+                    className="row__textarea"
                     value={newTargetText}
                     onChange={e => setNewTargetText(e.target.value)}
-                    className="row__textarea"
                 ></textarea>
 
                 <div className="row__select-lang">

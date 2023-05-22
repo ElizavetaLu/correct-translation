@@ -5,6 +5,7 @@ $main_dark-text-color: #00071A;
 $primary: #6A75CA;
 $primary-hover: #616cbb;
 $danger: #F63C3C;
+$success: #4caf50;
 
 $area-width: 42%;
 
@@ -25,7 +26,7 @@ $area-width: 42%;
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
-    color: #00071A;
+    color: $main_dark-text-color;
 }
 
 @mixin font-15-400($color) {

@@ -1,17 +1,17 @@
-import { ILanguage, ILanguageDDInputProps } from "../../../intefaces/intefaces";
+import { ILanguage, ILanguageTinyDDInputProps } from "../../../intefaces/intefaces";
 import useToggle from "../../../hooks/useToggle";
 import { languages } from "../../../languages";
 import "./TinyDDInput.scss";
 
- 
 
-const TinyDDInput = ({ value, setValue }: ILanguageDDInputProps) => {
+
+const TinyDDInput = ({ value, setValue }: ILanguageTinyDDInputProps) => {
 
     const [isOpen, toggle] = useToggle();
 
     const filteredLanguages = languages.filter((item: ILanguage) => {
         if (item.code.toLocaleLowerCase().includes(value.toLocaleLowerCase()))
-            return item
+            return item;
     })
 
 
@@ -28,16 +28,16 @@ const TinyDDInput = ({ value, setValue }: ILanguageDDInputProps) => {
 
             {isOpen && <ul className="tiny-dropdown__list">
                 {
-                    filteredLanguages.map(items => (
+                    filteredLanguages.map(item => (
                         <li
-                            key={items.code}
+                            key={item.code}
                             className="tiny-dropdown__list-item"
                             onClick={() => {
-                                setValue(items.code);
+                                setValue(item.code);
                                 toggle();
                             }}
                         >
-                            {items.code}
+                            {item.code}
                         </li>)
                     )
                 }
