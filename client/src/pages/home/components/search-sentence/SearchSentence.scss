@@ -1,0 +1,52 @@
+@import "../../../../../variables";
+
+.search {
+    display: flex;
+    position: relative;
+    width: 100%;
+    max-width: 374px;
+
+    &__input {
+        height: 36px;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 2px 2px 8px rgba(0, 7, 26, 0.04);
+        border-radius: 17px;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 21px;
+        color: $main_dark-text-color;
+        padding: 8px 44px 8px 16px;
+        border: none;
+        outline: none;
+
+        &::placeholder {
+            color: #B0B0B0;
+        }
+    }
+
+    &__button {
+        cursor: pointer;
+        width: 36px;
+        height: 36px;
+        border-radius: 100%;
+        background-color: $primary;
+        border: none;
+        @include flex-center;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transition: all .2s ease-in-out;
+
+        &:hover {
+            background-color: $primary-hover;
+        }
+    }
+
+    &__icon {
+        width: 14px;
+        height: 15px;
+    }
+}

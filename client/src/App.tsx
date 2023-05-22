@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import RootLayout from "./layouts/RootLayout";
 import NoMatch from "./pages/no-match/NoMatch";
+import RootLayout from "./layouts/RootLayout";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
 

@@ -1,11 +1,8 @@
 @import "../../../../variables";
 
 .dropdown-search {
-    width: 100%;
-    // max-width: $area-width;
-    // width: $area-width;
+    width: 100%; 
     position: relative;
-
 
     &__input {
         background-color: $main_bg-color;

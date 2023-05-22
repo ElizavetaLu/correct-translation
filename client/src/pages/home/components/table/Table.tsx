@@ -1,59 +1,64 @@
-import { Dispatch, useEffect } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { getSentences } from "../../../../store/actions/actionCreators";
-import { ReceivedSentencesData } from "../../../../intefaces/intefaces";
 
 import TableRowDefault from "../table-row-default/TableRowDefault";
 import TableRowActive from "../table-row-active/TableRowActive";
-import Loading from "../../../../components/loading/Loading";
 import "./Table.scss";
 
 
-type TTable = { searchTerm: string }
-
-const Table = ({ searchTerm }: TTable) => {
+const Table = () => {
 
     const dispatch: Dispatch<any> = useDispatch();
 
+    const { isLoading, totalPages, searchTerm, sourceLang, targetLang, sentences, activeItemId } = useSelector((state: any) => state.sentences);
+
+    const [page, setPage] = useState<number>(1);
+
+
+    const handleScroll = (e: any) => {
+        if (isLoading) return;
+
+        const { scrollHeight, scrollTop, clientHeight } = e.target.documentElement;
+
+        if (scrollHeight - scrollTop === clientHeight) {
+            setPage(prev => prev + 1);
+        }
+    }
+
     useEffect(() => {
-        dispatch(getSentences());
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
     }, [])
 
 
-    const { isLoading, sentences, activeItemId } = useSelector((state: any) => state.sentences);
+    useEffect(() => {
+        if (totalPages !== 0 && totalPages < page) return;
+
+        dispatch(getSentences(page === 1, {
+            pageNumber: page,
+            sourceLang: sourceLang.code,
+            targetLang: targetLang.code,
+            searchTerm
+        }))
+
+    }, [page])
+ 
+
     
-    const sentencesCopy = () => {
-        const copy = sentences && [...sentences];
-
-        if (copy && searchTerm) {
-            const matchList = copy.filter((item: ReceivedSentencesData) => {
-                const sourceTextToLowerCase = item.sourceText.toLowerCase();
-                const targetTextToLowerCase = item.targetText.toLowerCase();
-                const searchTermToLowerCase = searchTerm.toLowerCase();
-
-                if (sourceTextToLowerCase.includes(searchTermToLowerCase) || targetTextToLowerCase.includes(searchTermToLowerCase)) {
-                    return item
-                }
-            })
-
-            return matchList
-        }
-
-        return copy
+    if (totalPages === 1 && !sentences.length) {
+        return <p className="empty-list"> No data was found</p>;
     }
-
-
-    if (isLoading) return <div className="loading"> <Loading /> </div>;
 
     return (
         <div className="table">
+
             {
-                sentencesCopy()?.map((item: any) => {
+                sentences?.map((item: any, i: number) => {
 
                     if (activeItemId === item._id) {
                         return <TableRowActive
-                            key={item._id}
+                            key={i}
                             id={item._id}
                             sourceLang={item.sourceLang}
                             sourceText={item.sourceText}
@@ -63,13 +68,15 @@ const Table = ({ searchTerm }: TTable) => {
                     }
 
                     return <TableRowDefault
-                        key={item._id}
+                        key={i}
                         id={item._id}
                         sourceText={item.sourceText}
                         targetText={item.targetText}
                     />
                 })
             }
+
+            {/* <div className="loading"> {isLoading && <Loading />}  </div> */}
         </div>
     )
 }

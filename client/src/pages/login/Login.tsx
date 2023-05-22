@@ -1,7 +1,6 @@
 import { Dispatch, FormEventHandler, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-
 import { login } from "../../store/actions/actionCreators";
 
 import InputWithLabel from "../../components/inputs/input-with-label/InputWithLabel";
@@ -41,7 +40,9 @@ const Login = () => {
 
     return (
         <div className="login">
+
             <LogoTitle />
+
             <form onSubmit={submit} className="login__form">
                 <div className="login__inputs-container">
                     <InputWithLabel

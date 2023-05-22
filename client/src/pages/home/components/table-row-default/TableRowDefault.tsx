@@ -2,14 +2,11 @@ import { Dispatch } from "react";
 import { useDispatch } from "react-redux";
 
 import { setActiveIndex } from "../../../../store/actions/actionCreators";
+import { ITableRowDefault } from "../../../../intefaces/intefaces";
 import RowSpace from "../../../../components/row-space/RowSpace";
 
 
-interface ITableRowDefault {
-    sourceText: string,
-    targetText: string,
-    id: string
-}
+
 
 const TableRowDefault = ({ id, sourceText, targetText }: ITableRowDefault) => {
 
