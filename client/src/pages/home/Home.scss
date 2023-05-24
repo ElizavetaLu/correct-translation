@@ -1,56 +1,10 @@
 @import "../../../variables";
 
 .main {
-    margin-bottom: 90px; 
+    margin-bottom: 90px;
 
-    .select-language {
-        margin-top: 56px;
-        display: flex;
-        gap: 50px;
-
-        &__inputs {
-            @include flex-align-center;
-            gap: 16px;
-            width: calc(84% + 50px);
-        }
-
-        &__button {
-            cursor: pointer;
-            width: 20px;
-            height: 25px;
-        }
-    }
-
-    .add-sentence,
     .sentences {
         display: flex;
         gap: 50px;
-    }
-
-    .add-sentence {
-        margin: 24px 0 40px;
-        @include flex-align-center;
-
-        &:last-child() {
-            background-color: red;
-            width: 300px;
-            height: 300px;
-        }
-
-        &__button-container {
-            flex-shrink: 0;
-            width: 36px;
-            height: 36px;
-            background-color: $primary;
-            border-radius: 100%;
-            @include flex-center;
-            cursor: pointer;
-            transition: all .2s ease-in-out;
-            transform: rotateZ(45deg);
-
-            &:hover {
-                background-color: $primary-hover;
-            }
-        }
     }
 }

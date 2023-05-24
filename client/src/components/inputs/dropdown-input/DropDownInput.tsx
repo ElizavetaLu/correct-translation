@@ -20,7 +20,10 @@ const DropDownInput = ({ value, setValue, action }: ILanguageDDInputProps) => {
                 type="text"
                 className="dropdown-search__input"
                 value={value.name}
-                onChange={e => setValue({ ...value, name: e.target.value })}
+                onChange={e => {
+                    if (!isOpen) toggle();
+                    setValue({ ...value, name: e.target.value })
+                }}
                 onFocus={toggle}
             />
             <div className="dropdown-search__button" onClick={toggle}></div>
@@ -34,9 +37,9 @@ const DropDownInput = ({ value, setValue, action }: ILanguageDDInputProps) => {
                                     key={item.name}
                                     className="dropdown-search__list-item"
                                     onClick={() => {
-                                        setValue(item);
                                         toggle();
-                                        action(item.code);
+                                        setValue(item);
+                                        action(item);
                                     }}
                                 >{item.name}</li>
                             )

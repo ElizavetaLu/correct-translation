@@ -1,6 +1,6 @@
-import { ILanguage, ReceivedSentencesData } from '../../intefaces/intefaces';
+import { ISentencesState } from '../../intefaces/intefaces'; 
 import {
-    SET_LOADING, 
+    SET_LOADING,
     SET_PAGE_NUMBER,
     SET_SEARCH_TERM,
     SET_SENTENCES,
@@ -16,34 +16,32 @@ interface IAction {
     payload: any
 }
 
-interface IState {
-    isLoading: boolean,
-    totalPages: number, 
-    pageNumber: number,
-    searchTerm: string,
-    sourceLang: ILanguage,
-    targetLang: ILanguage,
-    sentences: ReceivedSentencesData[],
-    activeItemId: null | string,
-}
+export const sourceLangDefault = {
+    name: 'English',
+    code: 'en',
+    flag: 'gb'
+};
 
-const initialState: IState = {
+export const targetLangDefault = {
+    name: 'Ukrainian',
+    code: 'uk',
+    flag: 'ua'
+};
+
+
+
+
+const sourceLang = localStorage.getItem("sourceLanguage")
+const targetLang = localStorage.getItem("targetLanguage")
+
+const initialState: ISentencesState = {
     isLoading: false,
-    totalPages: 0, 
+    totalPages: 0,
     pageNumber: 1,
     searchTerm: '',
 
-
-    sourceLang: {
-        name: 'English',
-        code: 'en',
-        flag: 'gb'
-    },
-    targetLang: {
-        name: 'Ukrainian',
-        code: 'uk',
-        flag: 'ua'
-    },
+    sourceLang: sourceLang ? JSON.parse(sourceLang) : sourceLangDefault,
+    targetLang: targetLang ? JSON.parse(targetLang) : targetLangDefault,
 
     sentences: [],
     activeItemId: null,
@@ -56,7 +54,7 @@ const sentencesReducer = (state = initialState, { type, payload }: IAction) => {
             return { ...state, isLoading: !state.isLoading };
 
         case SET_TOTAL_PAGES:
-            return { ...state, totalPages: payload }; 
+            return { ...state, totalPages: payload };
 
         case SET_PAGE_NUMBER:
             return { ...state, pageNumber: payload };
@@ -77,6 +75,7 @@ const sentencesReducer = (state = initialState, { type, payload }: IAction) => {
 
 
         case SET_SOURCE_LANG:
+            console.log(payload)
             return { ...state, sourceLang: payload };
 
         case SET_TARGET_LANG:

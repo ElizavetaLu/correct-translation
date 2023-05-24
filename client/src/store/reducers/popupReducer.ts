@@ -1,4 +1,4 @@
-import { SHOW_POPUP, SET_POPUP_MESSAGE } from "../actions/types"
+import { SHOW_POPUP, SET_POPUP_MESSAGE } from "../actions/types";
 
 
 const initialState = {
@@ -7,8 +7,9 @@ const initialState = {
 }
 
 const popupReducer = (state = initialState, { type, payload }: any) => {
+
     switch (type) {
-        
+
         case SHOW_POPUP:
             return { ...state, isShown: !state.isShown };
 

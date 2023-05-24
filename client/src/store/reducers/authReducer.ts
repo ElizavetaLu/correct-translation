@@ -1,5 +1,5 @@
-import { AuthActionForReducer, AuthState } from "../../intefaces/intefaces"
-import { AUTH_USER, AUTH_ERROR, USER_EMAIL } from "../actions/types"
+import { AuthActionForReducer, AuthState } from "../../intefaces/intefaces";
+import { AUTH_USER, AUTH_ERROR, USER_EMAIL } from "../actions/types";
 
 
 const initialState: AuthState = {
@@ -9,9 +9,11 @@ const initialState: AuthState = {
 }
 
 const authReducer = (state = initialState, { type, payload }: AuthActionForReducer) => {
+
     switch (type) {
         case AUTH_USER:
             return { ...state, token: payload };
+
         case USER_EMAIL:
             return { ...state, email: payload };
 
