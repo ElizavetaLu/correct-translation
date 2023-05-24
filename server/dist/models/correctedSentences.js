@@ -22,22 +22,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Sentences = void 0;
+exports.CorrectedSentences = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-const mongoose_paginate_v2_1 = __importDefault(require("mongoose-paginate-v2"));
-;
-const sentencesSchema = new mongoose_1.Schema({
+const correctedSentencesSchema = new mongoose_1.Schema({
     sourceLang: String,
     sourceText: String,
     targetLang: String,
     targetText: String,
-    usersList: [String],
-    correct: Boolean
+    correct: Boolean,
+    userId: String
 });
-sentencesSchema.plugin(mongoose_paginate_v2_1.default);
-;
-exports.Sentences = mongoose_1.default.model('Sentences', sentencesSchema, 'sentences');
+const CorrectedSentences = mongoose_1.default.model('corrected-sentences', correctedSentencesSchema);
+exports.CorrectedSentences = CorrectedSentences;

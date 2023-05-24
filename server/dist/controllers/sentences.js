@@ -1,22 +1,20 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setBrandNewSentence = exports.setCorrectedSentence = exports.getSentences = void 0;
+const correctedSentences_1 = require("../models/correctedSentences");
 const sentences_1 = require("../models/sentences");
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const config_1 = __importDefault(require("../config"));
 const getSentences = async (req, res, next) => {
     const { page, limit, sourceLang, targetLang, keyWords } = req.query;
+    const userId = req.user;
     const options = {
-        page,
-        limit
+        page: typeof page === 'string' ? parseInt(page) : 1,
+        limit: typeof limit === 'string' ? parseInt(limit) : 15
     };
     const query = {
         sourceLang,
         targetLang,
-        sourceText: { $regex: keyWords ? keyWords : '', $options: 'i' }
+        sourceText: { $regex: keyWords ? keyWords : '', $options: 'i' },
+        usersList: { $nin: userId }
     };
     sentences_1.Sentences.paginate(query, options, (error, result) => {
         if (error)
@@ -26,45 +24,37 @@ const getSentences = async (req, res, next) => {
 };
 exports.getSentences = getSentences;
 const setCorrectedSentence = (req, res, next) => {
-    const { sourceLang, sourceText, targetLang, targetText } = req.body;
-    const token = req.headers.authorization;
-    jsonwebtoken_1.default.verify(token, config_1.default.secret, async (err, verifide) => {
-        if (!verifide)
-            return res.status(400).json({ error: 'User does not exist' });
-        if (err)
-            return res.status(401).json({ error: err });
-        const sentences = new sentences_1.CorrectedSentences({
-            sourceLang,
-            sourceText,
-            targetLang,
-            targetText,
-            userId: verifide.sub,
-            correct: true
-        });
-        sentences.save()
-            .then(() => res.status(200).send({ result: 'Changes were successfully saved' }))
-            .catch(() => res.status(400).send({ error: 'Bad request' }));
+    const { sourceLang, sourceText, targetLang, targetText, id } = req.body;
+    const userId = req.user;
+    sentences_1.Sentences.updateOne({ _id: id }, { $addToSet: { usersList: userId } })
+        .then(() => { })
+        .catch(() => { });
+    const sentences = new correctedSentences_1.CorrectedSentences({
+        sourceLang,
+        sourceText,
+        targetLang,
+        targetText,
+        userId,
+        correct: true
     });
+    sentences.save()
+        .then(() => res.status(200).send({ result: 'Changes were successfully saved' }))
+        .catch(() => res.status(400).send({ error: 'Bad request' }));
 };
 exports.setCorrectedSentence = setCorrectedSentence;
 const setBrandNewSentence = (req, res, next) => {
     const { sourceLang, sourceText, targetLang, targetText } = req.body;
-    const token = req.headers.authorization;
-    jsonwebtoken_1.default.verify(token, config_1.default.secret, async (err, verifide) => {
-        if (!verifide)
-            return res.status(400).json({ error: 'User does not exist' });
-        if (err)
-            return res.status(401).json({ error: err });
-        const sentences = new sentences_1.Sentences({
-            sourceLang,
-            sourceText,
-            targetLang,
-            targetText,
-            correct: false
-        });
-        sentences.save()
-            .then(() => res.status(200).send({ result: 'New sentence was created' }))
-            .catch(() => res.status(400).send({ error: 'Bad request' }));
+    const userId = req.user;
+    const sentences = new sentences_1.Sentences({
+        sourceLang,
+        sourceText,
+        targetLang,
+        targetText,
+        usersList: [userId],
+        correct: false
     });
+    sentences.save()
+        .then(() => res.status(200).send({ result: 'New sentence was created' }))
+        .catch(() => res.status(400).send({ error: 'Bad request' }));
 };
 exports.setBrandNewSentence = setBrandNewSentence;

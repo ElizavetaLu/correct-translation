@@ -2,42 +2,30 @@ import mongoose, { Document, Model, Schema } from 'mongoose';
 import paginate from 'mongoose-paginate-v2';
 
 
-
 export interface ISentences extends Document {
     sourceLang: string,
     sourceText: string,
     targetLang: string,
     targetText: string,
+    usersList: string[],
     correct: boolean
-}
-
-export interface ICorrectedSentences extends ISentences {
-    userId: string,
-}
-
+};
 
 const sentencesSchema: Schema = new Schema({
     sourceLang: String,
     sourceText: String,
     targetLang: String,
     targetText: String,
+    usersList: [String],
     correct: Boolean
 });
 
 sentencesSchema.plugin(paginate);
 
-const correctedSentencesSchema: Schema = new Schema({
-    sourceLang: String,
-    sourceText: String,
-    targetLang: String,
-    targetText: String,
-    correct: Boolean,
-    userId: String
-});
+interface SentencesDocument extends mongoose.Document, ISentences { };
 
 
-
-const Sentences: Model<ISentences> = mongoose.model<ISentences>('sentences', sentencesSchema);
-const CorrectedSentences: Model<ICorrectedSentences> = mongoose.model<ICorrectedSentences>('corrected-sentences', correctedSentencesSchema);
-
-export { Sentences, CorrectedSentences }; 
+export const Sentences = mongoose.model<
+    SentencesDocument,
+    mongoose.PaginateModel<SentencesDocument>
+>('Sentences', sentencesSchema, 'sentences');
