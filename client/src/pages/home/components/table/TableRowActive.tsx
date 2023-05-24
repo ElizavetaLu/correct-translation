@@ -2,7 +2,7 @@ import { Dispatch, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { setActiveIndex, setCorrectedSentence } from "../../../../store/actions/actionCreators";
-import { SentencesData } from "../../../../intefaces/intefaces";
+import { ISentencesDataWithId, SentencesData } from "../../../../intefaces/intefaces";
 
 import TinyDDInput from "../../../../components/inputs/tiny-dropdown-input/TinyDDInput";
 import RowSpace from "../../../../components/row-space/RowSpace";
@@ -10,11 +10,8 @@ import Cross from "../../../../components/cross-btn/Cross";
 
 
 
-interface ISentencesData extends SentencesData {
-    id: string
-}
 
-const TableRowActive = ({ id, sourceLang, sourceText, targetLang, targetText }: ISentencesData) => {
+const TableRowActive = ({ id, sourceLang, sourceText, targetLang, targetText }: ISentencesDataWithId) => {
 
     const dispatch: Dispatch<any> = useDispatch();
 
@@ -30,10 +27,11 @@ const TableRowActive = ({ id, sourceLang, sourceText, targetLang, targetText }: 
             sourceLang: newSourceLang,
             sourceText: newSourceText,
             targetLang: newTargetLang,
-            targetText: newTargetText
+            targetText: newTargetText,
+            id
         };
 
-        dispatch(setCorrectedSentence(correctedSentence, id));
+        dispatch(setCorrectedSentence(correctedSentence));
         dispatch(setActiveIndex(null));
     }
 

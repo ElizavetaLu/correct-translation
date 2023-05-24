@@ -1,6 +1,21 @@
 import { AnyAction, Dispatch } from "redux";
-import { AuthCredentials, AuthDispatchType, ILanguage, IRequestData, SentencesData } from "../../intefaces/intefaces";
-import { loginFetch, sentencesFetch, setBrandNewSentenceFetch, setCorrectedSentenceFetch } from "../../services";
+
+import {
+    loginFetch,
+    sentencesFetch,
+    setBrandNewSentenceFetch,
+    setCorrectedSentenceFetch
+} from "../../services";
+
+import {
+    AuthCredentials,
+    AuthDispatchType,
+    ILanguage,
+    IRequestData,
+    ISentencesDataWithId,
+    SentencesData
+} from "../../intefaces/intefaces";
+
 import {
     AUTH_ERROR,
     AUTH_USER,
@@ -51,6 +66,8 @@ export const setAuthError = (errorMessage: string) => ({ type: AUTH_ERROR, paylo
 
 export const getSentences = (isNewDataRequest: boolean, payload: IRequestData) => (dispatch: Dispatch<AnyAction>) => {
 
+    dispatch({ type: SET_LOADING });
+
     sentencesFetch(payload)
         .then(({ data }) => {
 
@@ -58,13 +75,13 @@ export const getSentences = (isNewDataRequest: boolean, payload: IRequestData) =
             dispatch({ type: SET_SENTENCES, payload: { data: data.docs, isNewDataRequest } });
 
             dispatch({ type: SET_TOTAL_PAGES, payload: data.totalPages });
-            dispatch({ type: SET_LOADING })
+            dispatch({ type: SET_LOADING });
         })
         .catch(err => console.log(err))
 
 };
 
-export const setCorrectedSentence = (sentencesData: SentencesData, id: string | null) => (dispatch: Dispatch<AnyAction>) => {
+export const setCorrectedSentence = (sentencesData: ISentencesDataWithId) => (dispatch: Dispatch<AnyAction>) => {
 
     setCorrectedSentenceFetch(sentencesData)
         .then(({ data }) => {
@@ -92,9 +109,17 @@ export const setSearchTerm = (payload: string) => ({ type: SET_SEARCH_TERM, payl
 
 export const setPageNumber = (payload: number) => ({ type: SET_PAGE_NUMBER, payload });
 
-export const setSourceLang = (payload: ILanguage) => ({ type: SET_SOURCE_LANG, payload });
+export const setSourceLang = (payload: ILanguage) => {
 
-export const setTargetLang = (payload: ILanguage) => ({ type: SET_TARGET_LANG, payload });
+    localStorage.setItem("sourceLanguage", JSON.stringify(payload));
+    return { type: SET_SOURCE_LANG, payload };
+};
+
+export const setTargetLang = (payload: ILanguage) => {
+
+    localStorage.setItem("targetLanguage", JSON.stringify(payload));
+    return { type: SET_TARGET_LANG, payload };
+};
 
 export const setActiveIndex = (id: string | null) => ({ type: SET_ACTIVE, payload: id });
 

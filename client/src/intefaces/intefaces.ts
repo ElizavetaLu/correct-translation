@@ -39,6 +39,10 @@ export interface SentencesData {
     targetLang: string,
     targetText: string
 };
+
+export interface ISentencesDataWithId extends SentencesData {
+    id: string, 
+};
 export interface ReceivedSentencesData extends SentencesData {
     _id: string,
     corrected: boolean
@@ -55,18 +59,6 @@ export interface ILanguages {
     targetLang: string
 }
 
-export interface ILanguageDDInputProps {
-    value: ILanguage,
-    setValue: (lang: ILanguage) => void;
-    action: (lang: string) => void;
-}
-
-export interface ILanguageTinyDDInputProps {
-    value: string,
-    setValue: (lang: string) => void;
-}
-
-
 export interface IRequestData {
     pageNumber: number,
     sourceLang: string,
@@ -77,6 +69,17 @@ export interface IRequestData {
 
 
 //components props
+export interface ILanguageDDInputProps {
+    value: ILanguage,
+    setValue: (lang: ILanguage) => void;
+    action: (lang: ILanguage) => void;
+}
+
+export interface ILanguageTinyDDInputProps {
+    value: string,
+    setValue: (lang: string) => void;
+}
+
 export interface IPopup {
     isShown: boolean,
     message: string,
@@ -110,4 +113,24 @@ export interface ICross {
     primary?: boolean,
     defaultWhite?: boolean,
     error?: boolean
+}
+
+export interface ISelectLanguage {
+    setSourceLanguage: (lang: ILanguage) => void,
+    setTargetLanguage: (lang: ILanguage) => void,
+    sourceLang: ILanguage,
+    targetLang: ILanguage
+}
+
+
+//sentences state:
+export interface ISentencesState {
+    isLoading: boolean,
+    totalPages: number,
+    pageNumber: number,
+    searchTerm: string,
+    sourceLang: ILanguage,
+    targetLang: ILanguage,
+    sentences: ReceivedSentencesData[],
+    activeItemId: null | string,
 }

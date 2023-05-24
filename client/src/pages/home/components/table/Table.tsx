@@ -2,8 +2,9 @@ import { Dispatch, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSentences } from "../../../../store/actions/actionCreators";
 
-import TableRowDefault from "../table-row-default/TableRowDefault";
-import TableRowActive from "../table-row-active/TableRowActive";
+import Loading from "../../../../components/loading/Loading";
+import TableRowDefault from "./TableRowDefault";
+import TableRowActive from "./TableRowActive";
 import "./Table.scss";
 
 
@@ -43,12 +44,16 @@ const Table = () => {
         }))
 
     }, [page])
- 
 
-    
+
+
     if (totalPages === 1 && !sentences.length) {
-        return <p className="empty-list"> No data was found</p>;
-    }
+        return <p className="empty-list"> No data was found </p>;
+    };
+
+    if (isLoading && !sentences.length) {
+        return <div className="loading"> <Loading /> </div>;
+    };
 
     return (
         <div className="table">
@@ -76,7 +81,6 @@ const Table = () => {
                 })
             }
 
-            {/* <div className="loading"> {isLoading && <Loading />}  </div> */}
         </div>
     )
 }
