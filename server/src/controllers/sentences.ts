@@ -1,24 +1,25 @@
-import { Sentences, CorrectedSentences } from '../models/sentences';
-import { RequestHandler } from 'express';
-import jwt from 'jsonwebtoken';
-import config from "../config";
+import { CorrectedSentences } from '../models/correctedSentences';
+import { Sentences } from '../models/sentences';
+import { RequestHandler } from 'express'; 
 
 
 export const getSentences: RequestHandler = async (req, res, next) => {
 
     const { page, limit, sourceLang, targetLang, keyWords } = req.query;
+    const userId = req.user;
+
 
     const options = {
-        page,
-        limit
+        page: typeof page === 'string' ? parseInt(page) : 1,
+        limit: typeof limit === 'string' ? parseInt(limit) : 15
     };
 
     const query = {
         sourceLang,
         targetLang,
-        sourceText: { $regex: keyWords ? keyWords : '', $options: 'i' }
+        sourceText: { $regex: keyWords ? keyWords : '', $options: 'i' },
+        usersList: { $nin: userId }
     };
-
 
     Sentences.paginate(query, options, (error: Error, result: any) => {
 
@@ -29,51 +30,44 @@ export const getSentences: RequestHandler = async (req, res, next) => {
 }
 
 export const setCorrectedSentence: RequestHandler = (req, res, next) => {
-    const { sourceLang, sourceText, targetLang, targetText } = req.body;
-    const token = req.headers.authorization!;
 
-    jwt.verify(token, config.secret, async (err, verifide) => {
-        if (!verifide) return res.status(400).json({ error: 'User does not exist' });
+    const { sourceLang, sourceText, targetLang, targetText, id } = req.body;
+    const userId = req.user;
+    
+    Sentences.updateOne({ _id: id }, { $addToSet: { usersList: userId } })
+    .then(() => { })
+    .catch(() => { })
 
-        if (err) return res.status(401).json({ error: err });
+    const sentences = new CorrectedSentences({
+        sourceLang,
+        sourceText,
+        targetLang,
+        targetText,
+        userId,
+        correct: true
+    });
 
-
-        const sentences = new CorrectedSentences({
-            sourceLang,
-            sourceText,
-            targetLang,
-            targetText,
-            userId: verifide.sub,
-            correct: true
-        });
-
-        sentences.save()
-            .then(() => res.status(200).send({ result: 'Changes were successfully saved' }))
-            .catch(() => res.status(400).send({ error: 'Bad request' }))
-    })
+    sentences.save()
+        .then(() => res.status(200).send({ result: 'Changes were successfully saved' }))
+        .catch(() => res.status(400).send({ error: 'Bad request' }))
 }
 
 
 export const setBrandNewSentence: RequestHandler = (req, res, next) => {
+
     const { sourceLang, sourceText, targetLang, targetText } = req.body;
-    const token = req.headers.authorization!;
+    const userId = req.user;
 
-    jwt.verify(token, config.secret, async (err, verifide) => {
-        if (!verifide) return res.status(400).json({ error: 'User does not exist' });
+    const sentences = new Sentences({
+        sourceLang,
+        sourceText,
+        targetLang,
+        targetText,
+        usersList: [userId],
+        correct: false
+    });
 
-        if (err) return res.status(401).json({ error: err });
-
-
-        const sentences = new Sentences({
-            sourceLang,
-            sourceText,
-            targetLang,
-            targetText,
-            correct: false
-        });
-
-        sentences.save()
-            .then(() => res.status(200).send({ result: 'New sentence was created' }))
-            .catch(() => res.status(400).send({ error: 'Bad request' }))
-    })
-} 
+    sentences.save()
+        .then(() => res.status(200).send({ result: 'New sentence was created' }))
+        .catch(() => res.status(400).send({ error: 'Bad request' }))
+}
