@@ -28,6 +28,7 @@ import {
     SET_SOURCE_LANG,
     SET_TARGET_LANG,
     SET_TOTAL_PAGES,
+    DELETE_SENTENCE,
     SHOW_POPUP,
     SET_POPUP_MESSAGE
 } from "./types";
@@ -85,6 +86,8 @@ export const setCorrectedSentence = (sentencesData: ISentencesDataWithId) => (di
 
     setCorrectedSentenceFetch(sentencesData)
         .then(({ data }) => {
+
+            dispatch({ type: DELETE_SENTENCE, payload: sentencesData.id });
 
             dispatch({ type: SET_POPUP_MESSAGE, payload: data.result });
             dispatch({ type: SHOW_POPUP });

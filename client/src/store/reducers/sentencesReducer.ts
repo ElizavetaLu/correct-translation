@@ -1,4 +1,4 @@
-import { ISentencesState } from '../../intefaces/intefaces'; 
+import { ISentencesState } from '../../intefaces/intefaces';
 import {
     SET_LOADING,
     SET_PAGE_NUMBER,
@@ -8,6 +8,7 @@ import {
     SET_SOURCE_LANG,
     SET_TARGET_LANG,
     SET_TOTAL_PAGES,
+    DELETE_SENTENCE
 } from './../actions/types';
 
 
@@ -69,13 +70,15 @@ const sentencesReducer = (state = initialState, { type, payload }: IAction) => {
             }
             return { ...state, sentences: [...state.sentences, ...payload.data] };
 
-
         case SET_ACTIVE:
             return { ...state, activeItemId: payload };
 
+        case DELETE_SENTENCE:
+
+            const newArr = state.sentences.filter(item => item._id !== payload)
+            return { ...state, sentences: newArr };
 
         case SET_SOURCE_LANG:
-            console.log(payload)
             return { ...state, sourceLang: payload };
 
         case SET_TARGET_LANG:
