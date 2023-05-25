@@ -3,7 +3,7 @@
 .popup {
     position: fixed;
     z-index: 4;
-    top: 150px;
+    top: 50px;
     right: 70px;
     background-color: $success;
     @include flex-align-center;

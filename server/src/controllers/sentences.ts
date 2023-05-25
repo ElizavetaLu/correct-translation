@@ -1,6 +1,6 @@
 import { CorrectedSentences } from '../models/correctedSentences';
 import { Sentences } from '../models/sentences';
-import { RequestHandler } from 'express'; 
+import { RequestHandler } from 'express';
 
 
 export const getSentences: RequestHandler = async (req, res, next) => {
@@ -33,10 +33,10 @@ export const setCorrectedSentence: RequestHandler = (req, res, next) => {
 
     const { sourceLang, sourceText, targetLang, targetText, id } = req.body;
     const userId = req.user;
-    
+
     Sentences.updateOne({ _id: id }, { $addToSet: { usersList: userId } })
-    .then(() => { })
-    .catch(() => { })
+        .then(() => { })
+        .catch(() => { })
 
     const sentences = new CorrectedSentences({
         sourceLang,

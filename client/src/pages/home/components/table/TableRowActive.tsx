@@ -2,7 +2,7 @@ import { Dispatch, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { setActiveIndex, setCorrectedSentence } from "../../../../store/actions/actionCreators";
-import { ISentencesDataWithId, SentencesData } from "../../../../intefaces/intefaces";
+import { ISentencesDataWithId } from "../../../../intefaces/intefaces";
 
 import TinyDDInput from "../../../../components/inputs/tiny-dropdown-input/TinyDDInput";
 import RowSpace from "../../../../components/row-space/RowSpace";
@@ -38,7 +38,7 @@ const TableRowActive = ({ id, sourceLang, sourceText, targetLang, targetText }: 
 
     return (
         <div className="row">
-            
+
             <div className="row__item-active">
                 <textarea
                     className="row__textarea"

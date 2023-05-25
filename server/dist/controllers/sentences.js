@@ -58,3 +58,13 @@ const setBrandNewSentence = (req, res, next) => {
         .catch(() => res.status(400).send({ error: 'Bad request' }));
 };
 exports.setBrandNewSentence = setBrandNewSentence;
+const sentences = new sentences_1.Sentences({
+    sourceLang: 'en',
+    sourceText: 'ddf ',
+    targetLang: 'uk',
+    targetText: 'fdvd ',
+    usersList: [],
+    correct: false
+});
+sentences.save()
+    .then(() => { });

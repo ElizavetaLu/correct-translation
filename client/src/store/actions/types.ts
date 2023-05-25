@@ -13,6 +13,7 @@ export const SET_SENTENCES = 'SET_SENTENCES';
 export const SET_ACTIVE = 'SET_ACTIVE';
 export const SET_SOURCE_LANG = 'SET_SOURCE_LANG';
 export const SET_TARGET_LANG = 'SET_TARGET_LANG';
+export const DELETE_SENTENCE = 'DELETE_SENTENCE';
 
 
 //popup
